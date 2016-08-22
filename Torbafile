@@ -1,0 +1,11 @@
+gh_release "bootstrap", :source => "twbs/bootstrap", :tag => "v3.3.7", :import => %w[
+  dist/css/bootstrap.css
+  dist/fonts/*
+  dist/js/bootstrap.js
+]
+
+gh_release "jquery.filer", :source => "CreativeDream/jQuery.filer", :tag => "v1.2", :import => %w[
+  js/jquery.filer.js
+  css/jquery.filer.css
+  assets/fonts/jquery.filer-icons/*
+]
