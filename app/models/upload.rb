@@ -98,11 +98,15 @@ class Upload < ActiveRecord::Base
     exif = EXIFR::JPEG.new(image)
     image.rewind
 
-    # Auto-rotate the primary image used for display, but we'll also store the
-    # raw version of the original image (mainly for downloads/archival
-    # purposes).
+    # Auto-rotate, and scale down the primary image used for display, but we'll
+    # also store the raw version of the original image (mainly for
+    # downloads/archival purposes).
     magick = MiniMagick::Image.open(image.path)
-    magick.auto_orient
+    magick.combine_options do |b|
+      b.auto_orient
+      b.resize "2000x2000>"
+      b.quality 80
+    end
 
     photo = Photo.new({
       :image => File.open(magick.path, "rb"),
