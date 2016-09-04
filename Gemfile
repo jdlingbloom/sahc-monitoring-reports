@@ -6,7 +6,6 @@ gem "rails", "~> 4.2.7.1"
 
 # For deploying to Heroku.
 gem "rails_12factor", :groups => [:production]
-gem "heroku-deflater", :groups => [:production]
 
 # For ENV based configuration in development.
 gem "dotenv-rails", "~> 2.1.1", :groups => [:development, :test]
