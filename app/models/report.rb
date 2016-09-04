@@ -8,15 +8,26 @@
 #  photographer_name :string(255)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  deleted_at        :datetime
+#  creator_id        :integer
+#  updater_id        :integer
+#  deleter_id        :integer
+#
+# Indexes
+#
+#  index_reports_on_deleted_at  (deleted_at)
 #
 
 class Report < ActiveRecord::Base
+  acts_as_paranoid
+  stampable
+
   # Associations
   has_many :uploads
   has_many :photos, -> { order(:taken_at, :image_filename, :id) }
   accepts_nested_attributes_for :photos, :allow_destroy => true
 
-  # Virtual Attributes
+  # Virtual attributes
   attr_accessor :upload_uuids
 
   # Validations
@@ -26,6 +37,11 @@ class Report < ActiveRecord::Base
 
   # Callbacks
   before_validation :handle_uploads
+
+  def upload_uuids=(uuids)
+    attribute_will_change!(:upload_uuids) if(@upload_uuids != uuids)
+    @upload_uuids = uuids
+  end
 
   def display_name
     @display_name ||= "#{self.monitoring_year} #{self.property_name}"

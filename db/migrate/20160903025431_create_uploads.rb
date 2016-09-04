@@ -7,6 +7,8 @@ class CreateUploads < ActiveRecord::Migration
       t.integer :file_size, :limit => 4, :null => false
       t.string :file_content_type, :limit => 255, :null => false
       t.timestamps :null => false
+      t.integer :creator_id
+      t.integer :updater_id
     end
 
     add_index(:uploads, :uuid, :unique => true)

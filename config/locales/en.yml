@@ -25,4 +25,5 @@ en:
       short: "%m/%d/%Y"
   time:
     formats:
+      long: "%m/%d/%Y %I:%M %p"
       long_tz: "%m/%d/%Y %I:%M %p (%Z)"

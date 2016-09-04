@@ -1,0 +1,8 @@
+<div class="photo-metadata">
+  <span class="photo-metadata-label">Filename:</span> <%= photo.image_filename %><br>
+  <span class="photo-metadata-label">Time:</span> <%= l(photo.taken_at, :format => :long_tz) if(photo.taken_at) %><br>
+  <span class="photo-metadata-label">Latitude:</span> <%= photo.latitude_rounded %><br>
+  <span class="photo-metadata-label">Longitude:</span> <%= photo.longitude_rounded %><br>
+  <span class="photo-metadata-label">Altitude:</span> <%= photo.altitude_feet %><%= "ft" if(photo.altitude_feet) %><br>
+  <span class="photo-metadata-label">Direction:</span> <%= photo.image_direction_heading %><br>
+</div>

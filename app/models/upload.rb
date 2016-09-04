@@ -10,6 +10,8 @@
 #  file_content_type :string(255)      not null
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
+#  creator_id        :integer
+#  updater_id        :integer
 #
 # Indexes
 #
@@ -17,6 +19,8 @@
 #
 
 class Upload < ActiveRecord::Base
+  stampable
+
   attachment :file
 
   def build_photos
@@ -62,6 +66,7 @@ class Upload < ActiveRecord::Base
           photo = build_photo(image)
           photo.assign_attributes({
             :image_filename => filename,
+            :original_image_filename => filename,
             :caption => subtitle,
           })
 
@@ -81,6 +86,8 @@ class Upload < ActiveRecord::Base
     photo.assign_attributes({
       :image_filename => self.file_filename,
       :image_content_type => self.file_content_type,
+      :original_image_filename => self.file_filename,
+      :original_image_content_type => self.file_content_type,
     })
 
     photo
@@ -91,11 +98,15 @@ class Upload < ActiveRecord::Base
     exif = EXIFR::JPEG.new(image)
     image.rewind
 
+    # Auto-rotate the primary image used for display, but we'll also store the
+    # raw version of the original image (mainly for downloads/archival
+    # purposes).
     magick = MiniMagick::Image.open(image.path)
     magick.auto_orient
 
     photo = Photo.new({
       :image => File.open(magick.path, "rb"),
+      :original_image => image,
       :taken_at => exif.date_time_original,
     })
 

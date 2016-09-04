@@ -26,6 +26,9 @@ gem "uglifier", ">= 1.3.0"
 # Use jquery as the JavaScript library
 gem "jquery-rails"
 
+# Bootstrap styles
+gem "bootstrap-sass", "~> 3.3.7"
+
 # Error logging
 gem "rollbar", "~> 2.12.0"
 
@@ -45,6 +48,12 @@ gem "refile-mini_magick", "~> 0.2.0"
 
 # Caching for refile's uploads
 gem "rack-cache", "~> 1.6.1"
+
+# Soft deletes
+gem "paranoia", "~> 2.1.5"
+
+# Userstamping
+gem "activerecord-userstamp", "~> 3.0.4"
 
 # PDF generation
 gem "prawn", "~> 2.1.0"

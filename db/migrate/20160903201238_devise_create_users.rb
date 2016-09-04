@@ -17,8 +17,11 @@ class DeviseCreateUsers < ActiveRecord::Migration
       t.string :name, :limit => 255
 
       t.timestamps :null => false
+      t.datetime :deleted_at
+      t.userstamps
     end
 
     add_index :users, [:provider, :uid], :unique => true
+    add_index :users, :deleted_at
   end
 end

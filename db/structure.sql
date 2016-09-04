@@ -41,13 +41,21 @@ CREATE TABLE photos (
     image_filename character varying(255) NOT NULL,
     image_size integer NOT NULL,
     image_content_type character varying(255) NOT NULL,
+    original_image_id character varying(100) NOT NULL,
+    original_image_filename character varying(255) NOT NULL,
+    original_image_size integer NOT NULL,
+    original_image_content_type character varying(255) NOT NULL,
     taken_at timestamp without time zone,
     latitude numeric(10,7),
     longitude numeric(10,7),
     altitude numeric(12,7),
     image_direction numeric(10,7),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    creator_id integer,
+    updater_id integer,
+    deleter_id integer
 );
 
 
@@ -111,7 +119,11 @@ CREATE TABLE reports (
     monitoring_year smallint,
     photographer_name character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    creator_id integer,
+    updater_id integer,
+    deleter_id integer
 );
 
 
@@ -155,7 +167,9 @@ CREATE TABLE uploads (
     file_size integer NOT NULL,
     file_content_type character varying(255) NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    creator_id integer,
+    updater_id integer
 );
 
 
@@ -196,7 +210,11 @@ CREATE TABLE users (
     last_name character varying(255),
     name character varying(255),
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    deleted_at timestamp without time zone,
+    creator_id integer,
+    updater_id integer,
+    deleter_id integer
 );
 
 
@@ -295,6 +313,13 @@ ALTER TABLE ONLY users
 
 
 --
+-- Name: index_photos_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_photos_on_deleted_at ON photos USING btree (deleted_at);
+
+
+--
 -- Name: index_refile_attachments_on_namespace; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -309,10 +334,24 @@ CREATE INDEX index_refile_attachments_on_oid ON refile_attachments USING btree (
 
 
 --
+-- Name: index_reports_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_reports_on_deleted_at ON reports USING btree (deleted_at);
+
+
+--
 -- Name: index_uploads_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_uploads_on_uuid ON uploads USING btree (uuid);
+
+
+--
+-- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
 
 
 --

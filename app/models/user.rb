@@ -16,13 +16,21 @@
 #  name               :string(255)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
+#  deleted_at         :datetime
+#  creator_id         :integer
+#  updater_id         :integer
+#  deleter_id         :integer
 #
 # Indexes
 #
+#  index_users_on_deleted_at        (deleted_at)
 #  index_users_on_provider_and_uid  (provider,uid) UNIQUE
 #
 
 class User < ActiveRecord::Base
+  acts_as_paranoid
+  model_stamper
+
   devise :omniauthable, :trackable
 
   def self.from_omniauth(auth)
@@ -33,7 +41,7 @@ class User < ActiveRecord::Base
       email = info["email"]
       email_domain = email.split("@").last
       if(email_domain == "appalachian.org" || ENV["ALLOWED_ACCOUNTS"].to_s.split(",").include?(email))
-        user = User.create({
+        user = User.create!({
           :provider => auth.provider,
           :uid => auth.uid,
           :email => info["email"],

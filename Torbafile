@@ -1,7 +1,6 @@
-gh_release "bootstrap", :source => "twbs/bootstrap", :tag => "v3.3.7", :import => %w[
-  dist/css/bootstrap.css
-  dist/fonts/*
-  dist/js/bootstrap.js
+gh_release "bootswatch", :source => "thomaspark/bootswatch", :tag => "v3.3.7", :import => %w[
+  lumen/_variables.scss
+  lumen/_bootswatch.scss
 ]
 
 zip "datatables", :url => "https://datatables.net/releases/DataTables-1.10.12.zip", :import => %w[
@@ -11,8 +10,13 @@ zip "datatables", :url => "https://datatables.net/releases/DataTables-1.10.12.zi
   media/js/jquery.dataTables.js
 ]
 
+gh_release "dirtyforms", :source => "NightOwl888/jquery.dirtyforms.dist", :tag => "2.0.0", :import => %w[
+  jquery.dirtyforms.js
+]
+
 zip "fine-uploader", :url => "https://github.com/FineUploader/fine-uploader/releases/download/5.11.7/fine-uploader.zip", :import => %w[
   fine-uploader.js
+  fine-uploader.js.map
   fine-uploader-new.css
   templates/simple-thumbnails.html
   *.gif

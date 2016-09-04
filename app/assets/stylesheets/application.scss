@@ -1,0 +1,177 @@
+@import "bootstrap-sprockets";
+@import "bootswatch/_variables.scss";
+@import "bootstrap";
+@import "bootswatch/_bootswatch.scss";
+@import "fine-uploader/fine-uploader-new.css";
+@import "datatables/dataTables.bootstrap.css";
+
+
+body {
+  padding: 20px 0px;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+h1 {
+  margin-top: 0px;
+}
+
+.nav-header.breadcrumb .breadcrumb {
+  padding: 0px;
+  margin: 0px;
+  background-color: transparent;
+  border-width: 0px;
+}
+
+.qq-upload-button {
+  background-color: $btn-primary-bg;
+  border-color: $btn-primary-border;
+}
+
+.submit {
+  margin-top: 2em;
+}
+
+.submit .cancel {
+  margin-left: 2em;
+}
+
+table .actions {
+  text-align: right;
+}
+
+table .actions a {
+  margin-left: 1em;
+}
+
+a span.glyphicon {
+  margin-right: 3px;
+}
+
+abbr[title=required] {
+  border-style: none;
+  cursor: default;
+  color: #E87723;
+  font-family: "Verdana";
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.form-control-inline {
+  width: auto;
+}
+
+#login {
+  max-width: 400px;
+  margin: 0px auto;
+}
+
+.google-signin-btn {
+  display: inline-block;
+  width: 191px;
+  height: 46px;
+  background-image: asset-data-url('btn_google_signin_dark_normal_web@2x.png');
+  background-size: 191px 46px;
+  background-repeat: no-repeat;
+}
+
+.google-signin-btn:hover,
+.google-signin-btn:focus {
+  background-image: asset-data-url('btn_google_signin_dark_focus_web@2x.png');
+}
+
+.google-signin-btn:active {
+  background-image: asset-data-url('btn_google_signin_dark_pressed_web@2x.png');
+}
+
+.dataTables_wrapper {
+  margin-top: 1.5em;
+}
+
+.large-height {
+  display: inline-block;
+  margin-top: $padding-large-vertical;
+}
+
+.details {
+  .row:after {
+    content: "";
+    display: block;
+    border-bottom: 1px solid #e3e3e3;
+    margin: 6px 15px;
+    @media (min-width: $screen-sm-min) {
+      margin: 0px 15px;
+    }
+  }
+
+  .row > div {
+    @media (min-width: $screen-sm-min) {
+      padding-top: 6px;
+      padding-bottom: 6px;
+    }
+  }
+
+  .row .col-sm-3 {
+    font-weight: bold;
+
+    @media (min-width: $screen-sm-min) {
+      text-align: right;
+    }
+  }
+}
+
+.photo-metadata {
+  color: #777;
+  font-size: 12px;
+}
+
+.button-actions {
+  @media (min-width: $screen-md-min) {
+    text-align: right;
+  }
+
+  a {
+    margin-left: 1em;
+  }
+
+  a:first-child {
+    margin-left: 0px;
+  }
+}
+
+.row.footer {
+  margin-top: 2em;
+}
+
+.glyphicon-spin {
+  -webkit-animation: glyphicon-spin 2s infinite linear;
+  animation: glyphicon-spin 2s infinite linear;
+}
+
+@-webkit-keyframes glyphicon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
+
+@keyframes glyphicon-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(359deg);
+    transform: rotate(359deg);
+  }
+}
