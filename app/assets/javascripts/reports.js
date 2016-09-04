@@ -32,7 +32,7 @@ function setupUploader(name, uuidInputName, overrides) {
     },
     callbacks: {
       onSubmit: function() {
-        $('input[type=submit]').attr('disabled', 'disabled');
+        $('button[type=submit]').attr('disabled', 'disabled');
         $('form').bind('submit', function(e) { e.preventDefault(); });
       },
       onComplete: function(id) {
@@ -48,7 +48,7 @@ function setupUploader(name, uuidInputName, overrides) {
         }).appendTo($uuids);
       },
       onAllComplete: function() {
-        $('input[type=submit]').removeAttr('disabled', 'disabled');
+        $('button[type=submit]').removeAttr('disabled', 'disabled');
         $('form').unbind('submit');
       },
       onDelete: function(id) {
