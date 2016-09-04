@@ -1,0 +1,11 @@
+<div id="login">
+  <div class="panel panel-default text-center">
+    <div class="panel-heading">
+      <h3 class="panel-title">Sign In</h3>
+    </div>
+    <div class="panel-body">
+      <p>Sign in with your appalachian.org Google account:</p>
+      <%= link_to('<span class="sr-only">Sign in with Google</span>'.html_safe, omniauth_authorize_path(resource_name, :google_oauth2), :class => "google-signin-btn") %><br />
+    </div>
+  </div>
+</div>

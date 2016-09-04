@@ -7,8 +7,16 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
+  <div class="container">
+    <%= breadcrumbs(:style => :bootstrap) %>
 
-<%= yield %>
+    <% flash.each do |flash_type, message| %>
+      <div class="alert <%= bootstrap_class_for(flash_type) %>">
+        <%= message.html_safe %>
+      </div>
+    <% end %>
 
+    <%= yield %>
+  </div>
 </body>
 </html>

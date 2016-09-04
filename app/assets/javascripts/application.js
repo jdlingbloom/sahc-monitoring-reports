@@ -1,3 +1,5 @@
 //= require jquery
 //= require jquery_ujs
-//= require jquery.filer/jquery.filer.js
+//= require fine-uploader/fine-uploader.js
+//= require datatables/jquery.dataTables.js
+//= require datatables/dataTables.bootstrap.js

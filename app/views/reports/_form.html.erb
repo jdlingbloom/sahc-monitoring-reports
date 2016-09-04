@@ -1,0 +1,134 @@
+<%= simple_form_for(@report, :wrapper => :horizontal_form) do |f| %>
+  <%= f.error_notification %>
+
+  <p><abbr title="required">*</abbr> Required field</p>
+
+  <div class="form-horizontal">
+    <%= f.input :property_name %>
+    <%= f.input :monitoring_year, :collection => monitoring_year_options(@report), :input_html => { :class => "form-control-inline" } %>
+    <%= f.input :photographer_name %>
+    <% if(!@report.new_record?) %>
+      <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9">
+          <%= link_to('<F28><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe) %>
+        </div>
+      </div>
+    <% else %>
+    <div class="form-group">
+      <div class="col-sm-3 control-label">
+        <label for="property"><abbr title="required">*</abbr> Photos</label>
+        <span class="help-block">Upload either JPEG files or KMZ files.</span>
+      </div>
+      <div class="col-sm-9">
+        <div id="uploader"></div>
+        <%= File.read(Rails.application.assets["fine-uploader/simple-thumbnails.html"].pathname).html_safe %>
+        <div id="upload_uuids">
+          <% if(@report.upload_uuids) %>
+            <% @report.upload_uuids.each do |uuid| %>
+              <%= f.hidden_field(:upload_uuids, :multiple => true, :value => uuid) %>
+            <% end %>
+          <% end %>
+        </div>
+        <script>
+          var uploader = new qq.FineUploader({
+            element: document.getElementById('uploader'),
+            template: 'qq-simple-thumbnails-template',
+            request: {
+              endpoint: '/uploads',
+              uuidName: 'uuid',
+              inputName: 'file',
+              customHeaders: {
+                'X-CSRF-Token': $.rails.csrfToken(),
+              },
+            },
+            session: {
+              endpoint: '/uploads',
+              params: {
+                uuids: $('#upload_uuids input').map(function() { return $(this).val(); }).get().join(','),
+              },
+            },
+            deleteFile: {
+              enabled: true,
+              endpoint: '/uploads',
+              customHeaders: {
+                'X-CSRF-Token': $.rails.csrfToken(),
+              },
+            },
+            validation: {
+              allowedExtensions: ['jpg', 'jpeg', 'kmz'],
+            },
+            callbacks: {
+              onSubmit: function() {
+                $('input[type=submit]').attr('disabled', 'disabled');
+                $('form').bind('submit',function(e){e.preventDefault();});
+              },
+              onComplete: function(id) {
+                var uuid = this.getUuid(id);
+                $('<input>').attr({
+                  type: 'hidden',
+                  name: 'report[upload_uuids][]',
+                  value: uuid,
+                }).appendTo('#upload_uuids');
+              },
+              onAllComplete: function() {
+                $('input[type=submit]').removeAttr('disabled', 'disabled');
+                $('form').unbind('submit');
+              },
+              onDelete: function(id) {
+                var uuid = this.getUuid(id);
+                $('#upload_uuids').find('[value=' + uuid + ']').remove();
+              },
+            },
+          })
+        </script>
+      </div>
+    </div>
+    <% end %>
+  </div>
+
+  <% unless(@report.new_record?) %>
+    <table class="table">
+      <thead>
+        <tr>
+          <th style="width: 1%">Photo</th>
+          <th>Caption</th>
+          <th>Metadata</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <%= f.simple_fields_for(:photos, :wrapper => :inline_form) do |pf| %>
+          <tr>
+            <td class="text-center">
+              <%= attachment_image_tag(pf.object, :image, :limit, 200, 200) %><br>
+              <%= link_to("Download original", download_photo_path(pf.object)) %><br>
+              <%= link_to("Replace photo") %>
+            </td>
+            <td><%= pf.input(:caption, :as => :text, :input_html => { :rows => 5 }) %></td>
+            <td>
+              Filename: <%= pf.object.image_filename %><br>
+              Time: <%= l(pf.object.taken_at, :format => :long_tz) if(pf.object.taken_at) %><br>
+              Latitude: <%= pf.object.latitude_rounded %><br>
+              Longitude: <%= pf.object.longitude_rounded %><br>
+              Altitude: <%= pf.object.altitude_feet %><br>
+              Direction: <%= pf.object.image_direction_heading %><br>
+            </td>
+            <td class="text-right"><%= pf.input(:_destroy, :as => :boolean) %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% end %>
+
+  <div class="row submit">
+    <div class="col-sm-offset-2 col-sm-8 text-center">
+      <%= f.button :submit, :class => "btn-lg btn-primary" %>
+      <%= link_to("Cancel", :back, :class => "text-danger cancel") %>
+    </div>
+    <div class="col-sm-2 text-right">
+      <% unless(@report.new_record?) %>
+        <%= link_to('<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>Delete'.html_safe, report_path(@report), :method => :delete, :data => { :confirm => "Are you sure you want to delete the #{@report.display_name} monitoring report?" }, :class => "text-danger") %>
+      <% end %>
+    </div>
+  </div>
+<% end %>

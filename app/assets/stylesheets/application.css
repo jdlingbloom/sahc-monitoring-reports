@@ -1,9 +1,82 @@
 /*
  *= require bootstrap/bootstrap.css
- *= require jquery.filer/jquery.filer.css
+ *= require fine-uploader/fine-uploader-new.css
+ *= require datatables/dataTables.bootstrap.css
  *= require_self
  */
 
 body {
-  padding: 20px;
+  padding: 20px 0px;
+}
+
+a {
+  text-decoration: underline;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+h1 {
+  margin-top: 0px;
+}
+
+.submit {
+  margin-top: 2em;
+}
+
+.submit .cancel {
+  margin-left: 2em;
+}
+
+table .actions {
+  text-align: right;
+}
+
+table .actions a {
+  margin-left: 1em;
+}
+
+a span.glyphicon {
+  margin-right: 3px;
+}
+
+abbr[title=required] {
+  border-style: none;
+  cursor: default;
+  color: #E87723;
+  font-family: "Verdana";
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.form-control-inline {
+  width: auto;
+}
+
+#login {
+  max-width: 400px;
+  margin: 0px auto;
+}
+
+.google-signin-btn {
+  display: inline-block;
+  width: 191px;
+  height: 46px;
+  background-image: url(btn_google_signin_dark_normal_web@2x.png);
+  background-size: 191px 46px;
+  background-repeat: no-repeat;
+}
+
+.google-signin-btn:hover,
+.google-signin-btn:focus {
+  background-image: url(btn_google_signin_dark_focus_web@2x.png);
+}
+
+.google-signin-btn:active {
+  background-image: url(btn_google_signin_dark_pressed_web@2x.png);
+}
+
+.dataTables_wrapper {
+  margin-top: 1.5em;
 }

@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-sm-6">
+    <h1>SAHC Monitoring Reports</h1>
+  </div>
+  <div class="col-sm-6 text-right">
+    <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Create New Report'.html_safe, new_report_path, :class => "btn btn-default btn-lg") %>
+  </div>
+</div>
+
+<table class="table table-hover table-bordered">
+  <thead>
+    <tr>
+      <th>Property Name</th>
+      <th>Monitoring Year</th>
+      <th>Created</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @reports.each do |report| %>
+      <tr>
+        <td><%= link_to(report.property_name, report_path(report)) %></td>
+        <td><%= report.monitoring_year %></td>
+        <td><%= report.created_at %></td>
+        <td class="actions">
+          <%= link_to('<span class="glyphicon glyphicon-file" aria-hidden="true"></span>Download PDF'.html_safe, download_report_path(report)) %>
+          <%= link_to('<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>Edit'.html_safe, edit_report_path(report)) %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function(){
+    $('table').DataTable({
+      pageLength: 50,
+      columnDefs: [
+        { targets: 3, orderable: false }
+      ]
+    });
+  });
+</script>

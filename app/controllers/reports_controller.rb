@@ -1,24 +1,53 @@
 require "rexml/document"
 
 class ReportsController < ApplicationController
-  def new
+  def index
+    @reports = Report.all
   end
 
-  def upload
-    @uploads = []
-    params[:uploads].each do |upload|
-      case(File.extname(upload.original_filename))
-      when ".kmz"
-        extract_zip(upload)
-      when ".jpg"
-        extract_jpg(upload)
-      else
-        raise "Unknown extension"
-      end
-    end
+  def show
+    @report = Report.find(params[:id])
+  end
+
+  def new
+    @report = Report.new(:monitoring_year => Date.today.year)
   end
 
   def create
+    @report = Report.new
+    save!
+    redirect_to(edit_report_path(@report))
+  rescue ActiveRecord::RecordInvalid
+    render(:action => "new")
+  end
+
+  def edit
+    @report = Report.find(params[:id])
+  end
+
+  def update
+    @report = Report.find(params[:id])
+    save!
+    if(params[:upload_uuids])
+      redirect_to(edit_report_path(@report))
+    else
+      redirect_to(report_path(@report))
+    end
+  rescue ActiveRecord::RecordInvalid
+    render(:action => "edit")
+  end
+
+  def destroy
+    @report = Report.find(params[:id])
+    @report.destroy
+
+    flash[:notice] = "Successfully deleted #{@report.display_name} monitoring report"
+    redirect_to(reports_path)
+  end
+
+  def download
+    @report = Report.find(params[:id])
+
     pdf = Prawn::Document.new(:page_layout => :landscape, :margin => 18) do |pdf|
       header_height = 40
       footer_height = 20
@@ -34,7 +63,7 @@ class ReportsController < ApplicationController
           pdf.stroke_horizontal_rule
           pdf.move_down 2
           pdf.text "Signature of photographer"
-          pdf.text "#{params[:photographer]}, SAHC"
+          pdf.text "#{@report.photographer_name}, SAHC"
         end
 
         pdf.grid([0, 4], [0, 5]).bounding_box do
@@ -45,7 +74,7 @@ class ReportsController < ApplicationController
         end
 
         pdf.grid([0, 6], [0, 11]).bounding_box do
-          pdf.text "All photos taken on 01/28/2016", :align => :right
+          pdf.text "All photos taken on #{l(@report.photos_date, :format => :short) if(@report.photos_date)}", :align => :right
           pdf.text "unless otherwise noted", :align => :right
         end
       end
@@ -53,20 +82,20 @@ class ReportsController < ApplicationController
       pdf.bounding_box([0, pdf.bounds.height - header_height], :width => pdf.bounds.width, :height => pdf.bounds.height - (header_height + footer_height)) do
         cols = 3
         pdf.define_grid(:columns => cols, :rows => 2, :gutter => 10)
-        params[:uploads].each_with_index do |(id, upload), index|
+        @report.photos.each_with_index do |photo, index|
           row = (index / cols.to_f).floor
           col = index % cols
 
           pdf.grid(row, col).bounding_box do
-            pdf.image StringIO.new(Base64.decode64(upload[:image])), :width => pdf.bounds.width
+            pdf.image photo.image.download, :fit => [pdf.bounds.width, pdf.bounds.height - 80], :position => :center
             pdf.rectangle [0, pdf.cursor], pdf.bounds.width, 6
             pdf.fill
             pdf.move_down 1
             pdf.font("Helvetica") do
-              pdf.text "1/28/2016 10:34:12 AM (-5.0 hrs) Dir=WSW Lat=35.59554 Lon=-82.78207 Alt=3852ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
+              pdf.text "#{l(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Dir=#{photo.image_direction_heading} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
             end
             pdf.move_down 3
-            pdf.text_box "Photo #{index + 1}: #{upload[:caption]}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
+            pdf.text_box "Photo #{index + 1}: #{photo.caption}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
           end
         end
       end
@@ -78,7 +107,7 @@ class ReportsController < ApplicationController
 
           pdf.grid([0, 2], [0, 9]).bounding_box do
             pdf.move_down 8
-            pdf.text "<b>#{params[:property].upcase}</b> PROPERTY 2016 MONITORING PHOTOS", :align => :center, :inline_format => true
+            pdf.text "<b>#{@report.property_name.upcase}</b> PROPERTY 2016 MONITORING PHOTOS", :align => :center, :inline_format => true
           end
 
           pdf.grid([0, 10], [0, 11]).bounding_box do
@@ -138,5 +167,28 @@ class ReportsController < ApplicationController
       :caption => "",
       :exif => exif,
     }
+  end
+
+  private
+
+  def save!
+    @report.assign_attributes(report_params)
+    @report.save!
+  end
+
+  def report_params
+    params.require(:report).permit([
+      :property_name,
+      :monitoring_year,
+      :photographer_name,
+      { :upload_uuids => [] },
+      {
+        :photos_attributes => [
+          :id,
+          :caption,
+          :_destroy,
+        ],
+      }
+    ])
   end
 end

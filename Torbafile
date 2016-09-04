@@ -4,8 +4,17 @@ gh_release "bootstrap", :source => "twbs/bootstrap", :tag => "v3.3.7", :import =
   dist/js/bootstrap.js
 ]
 
-gh_release "jquery.filer", :source => "CreativeDream/jQuery.filer", :tag => "v1.2", :import => %w[
-  js/jquery.filer.js
-  css/jquery.filer.css
-  assets/fonts/jquery.filer-icons/*
+zip "datatables", :url => "https://datatables.net/releases/DataTables-1.10.12.zip", :import => %w[
+  media/css/dataTables.bootstrap.css
+  media/images/sort*.png
+  media/js/dataTables.bootstrap.js
+  media/js/jquery.dataTables.js
+]
+
+zip "fine-uploader", :url => "https://github.com/FineUploader/fine-uploader/releases/download/5.11.7/fine-uploader.zip", :import => %w[
+  fine-uploader.js
+  fine-uploader-new.css
+  templates/simple-thumbnails.html
+  *.gif
+  placeholders/*
 ]

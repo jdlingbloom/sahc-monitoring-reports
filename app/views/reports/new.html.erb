@@ -1,12 +1,4 @@
-<%= form_tag(upload_reports_path, :multipart => true) do %>
-  <%= file_field_tag("uploads[]", :id => "uploads") %>
-  <script>
-    $('#uploads').filer({
-        extensions: ['jpg', 'jpeg', 'kmz'],
-        changeInput: true,
-        showThumbs: true,
-        addMore: true
-    });
-  </script>
-  <%= submit_tag("Upload", :class => "btn btn-lg btn-primary") %>
-<% end %>
+<% breadcrumb(:new_report) %>
+
+<h1>New Monitoring Report</h1>
+<%= render("form") %>
