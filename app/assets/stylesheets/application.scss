@@ -1,9 +1,9 @@
 @import "bootstrap-sprockets";
-@import "bootswatch/_variables.scss";
+@import "bootswatch/_variables";
 @import "bootstrap";
-@import "bootswatch/_bootswatch.scss";
-@import "fine-uploader/fine-uploader-new.css";
-@import "datatables/dataTables.bootstrap.css";
+@import "bootswatch/_bootswatch";
+@import "fine-uploader/fine-uploader-new";
+@import "datatables/dataTables.bootstrap";
 
 
 body {
