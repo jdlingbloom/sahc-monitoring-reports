@@ -1,7 +1,7 @@
 namespace :refile do
   desc "Clean temporary cached upload files older than 24 hours"
   task :clean_cached_files => :environment do
-    older_than = Time.now.utc - 1.minutes
+    older_than = Time.now.utc - 1.day
 
     # Cleanup orphaned uploads from if the user uploads a file, but never
     # creates a report using that upload.
