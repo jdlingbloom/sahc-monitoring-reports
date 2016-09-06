@@ -86,7 +86,7 @@ class Photo < ActiveRecord::Base
 
   def altitude_feet
     if(self.altitude)
-      @altitude_feet ||= (self.altitude * 3.28084).to_i
+      @altitude_feet ||= (self.altitude * 3.28084).round
     end
   end
 
