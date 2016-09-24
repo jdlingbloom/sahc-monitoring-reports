@@ -54,7 +54,10 @@ class Upload < ActiveRecord::Base
         end
 
         description = REXML::Document.new("<root>#{description.text}</root>")
-        subtitle = coder.decode(description.elements["//div[@id='com.miocool.mapplus.subtitle']"].text.strip)
+        subtitle_elem = description.elements["//div[@id='com.miocool.mapplus.subtitle']"]
+        if(subtitle_elem)
+          subtitle = coder.decode(subtitle_elem.text.strip)
+        end
 
         begin
           image = Tempfile.new(["", File.extname(filename)])
