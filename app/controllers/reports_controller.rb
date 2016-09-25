@@ -1,5 +1,3 @@
-require "rexml/document"
-
 class ReportsController < ApplicationController
   def index
     @reports = Report.order(:created_at => :desc).all
@@ -7,6 +5,11 @@ class ReportsController < ApplicationController
 
   def show
     @report = Report.find(params[:id])
+
+    respond_to do |format|
+      format.html
+      format.json { render :json => @report }
+    end
   end
 
   def new
@@ -16,21 +19,24 @@ class ReportsController < ApplicationController
   def create
     @report = Report.new
     save!
-    flash[:notice] = "New photos added. Update captions below."
     redirect_to(edit_report_path(@report))
   rescue ActiveRecord::RecordInvalid
     render(:action => "new")
   end
 
   def edit
+    if(params[:new_uploads])
+      flash.now[:notice] = "New photos added. Update captions below."
+    end
+
     @report = Report.find(params[:id])
   end
 
   def update
     @report = Report.find(params[:id])
     save!
-    if(params[:report][:upload_uuids].present?)
-      flash[:notice] = "New photos added. Update captions below."
+    @report.reload
+    if(@report.upload_progress == "pending")
       redirect_to(edit_report_path(@report))
     else
       flash[:notice] = "Successfully saved changes."
@@ -95,7 +101,7 @@ class ReportsController < ApplicationController
             col = index % cols
 
             pdf.grid(row, col).bounding_box do
-              pdf.image photo.image.download, :fit => [pdf.bounds.width, pdf.bounds.height - 69.6], :position => :center
+              pdf.image photo.image.default.file.to_tempfile, :fit => [pdf.bounds.width, pdf.bounds.height - 69.6], :position => :center
               pdf.rectangle [0, pdf.cursor], pdf.bounds.width, 6
               pdf.fill
               pdf.move_down 1

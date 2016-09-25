@@ -31,5 +31,8 @@ module Sahc
       :verbose => true,
       :metastore => "file:#{Rails.root.join("tmp/rack-cache/meta")}",
       :entitystore => "file:#{Rails.root.join("tmp/rack-cache/body")}"
+
+    # Use delayed_job for background jobs.
+    config.active_job.queue_adapter = :delayed_job
   end
 end

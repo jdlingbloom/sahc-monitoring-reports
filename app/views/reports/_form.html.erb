@@ -12,7 +12,7 @@
     <% if(!@report.new_record?) %>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
-          <%= link_to('<F28><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#", :id => "uploader_toggle") %>
+          <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#", :id => "uploader_toggle") %>
         </div>
       </div>
     <% end %>
@@ -42,8 +42,11 @@
       <% next unless(pf.object.persisted?) %>
       <div class="row form-group">
         <div class="col-sm-3 text-center">
-          <%= attachment_image_tag(pf.object, :image, :limit, 200, 200, :class => "img-responsive center-block") %>
-          <%= link_to("Download original", download_photo_path(pf.object)) %><br>
+          <%= pf.object.image.path.inspect %>
+          <%= pf.object.image.root.inspect %>
+          <%= pf.object.image.url.inspect %>
+          <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
+          <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
           <%= link_to("Replace photo", "#", :id => "uploader_#{pf.object.id}_toggle") %>
           <div id="uploader_<%= pf.object.id %>_container" style="display: none;">
             <div id="uploader_<%= pf.object.id %>"></div>

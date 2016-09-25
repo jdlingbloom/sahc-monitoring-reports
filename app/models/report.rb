@@ -12,6 +12,8 @@
 #  creator_id        :integer
 #  updater_id        :integer
 #  deleter_id        :integer
+#  upload_progress   :string(20)
+#  pdf_progress      :string(20)
 #
 # Indexes
 #
@@ -24,7 +26,7 @@ class Report < ActiveRecord::Base
 
   # Associations
   has_many :uploads
-  has_many :photos, -> { order(:taken_at, :image_filename, :id) }
+  has_many :photos, -> { order(:taken_at, :image, :id) }
   accepts_nested_attributes_for :photos, :allow_destroy => true
 
   # Virtual attributes
@@ -36,7 +38,7 @@ class Report < ActiveRecord::Base
   validates :photographer_name, :presence => true
 
   # Callbacks
-  before_validation :handle_uploads
+  after_commit :handle_uploads
 
   def upload_uuids=(uuids)
     attribute_will_change!(:upload_uuids) if(@upload_uuids != uuids)
@@ -66,11 +68,8 @@ class Report < ActiveRecord::Base
 
   def handle_uploads
     if(self.upload_uuids.present?)
-      self.upload_uuids.each do |uuid|
-        upload = Upload.find_by!(:uuid => uuid)
-        self.photos += upload.build_photos
-        upload.destroy
-      end
+      self.update_column(:upload_progress, "pending")
+      Delayed::Job.enqueue(ReportUploadsJob.new(self.id, self.upload_uuids))
     end
   end
 end

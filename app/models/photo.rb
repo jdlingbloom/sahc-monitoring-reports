@@ -2,28 +2,23 @@
 #
 # Table name: photos
 #
-#  id                          :integer          not null, primary key
-#  report_id                   :integer          not null
-#  caption                     :text
-#  image_id                    :string(100)      not null
-#  image_filename              :string(255)      not null
-#  image_size                  :integer          not null
-#  image_content_type          :string(255)      not null
-#  original_image_id           :string(100)      not null
-#  original_image_filename     :string(255)      not null
-#  original_image_size         :integer          not null
-#  original_image_content_type :string(255)      not null
-#  taken_at                    :datetime
-#  latitude                    :decimal(10, 7)
-#  longitude                   :decimal(10, 7)
-#  altitude                    :decimal(12, 7)
-#  image_direction             :decimal(10, 7)
-#  created_at                  :datetime         not null
-#  updated_at                  :datetime         not null
-#  deleted_at                  :datetime
-#  creator_id                  :integer
-#  updater_id                  :integer
-#  deleter_id                  :integer
+#  id                 :integer          not null, primary key
+#  report_id          :integer          not null
+#  caption            :text
+#  image              :string(255)      not null
+#  image_size         :integer          not null
+#  image_content_type :string(255)      not null
+#  taken_at           :datetime
+#  latitude           :decimal(10, 7)
+#  longitude          :decimal(10, 7)
+#  altitude           :decimal(12, 7)
+#  image_direction    :decimal(10, 7)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  deleted_at         :datetime
+#  creator_id         :integer
+#  updater_id         :integer
+#  deleter_id         :integer
 #
 # Indexes
 #
@@ -57,15 +52,22 @@ class Photo < ActiveRecord::Base
   acts_as_paranoid
   stampable
 
+  # Associations
+  belongs_to :report
+
   # Virtual attributes
   attr_accessor :upload_uuid
 
   # File attachments
-  attachment :image
-  attachment :original_image
+  mount_uploader :image, PhotoImageUploader
 
   # Callbacks
-  before_validation :handle_upload
+  before_validation :set_upload_metadata
+  after_commit :handle_upload_replacement
+
+  # Exclude file uploads from automatic schema validations, since length
+  # validations validate the file size (not filename length) for file uploads.
+  schema_validations :except => [:image]
 
   def upload_uuid=(uuid)
     attribute_will_change!(:upload_uuid) if(@upload_uuid != uuid)
@@ -106,27 +108,17 @@ class Photo < ActiveRecord::Base
 
   private
 
-  def handle_upload
+  def handle_upload_replacement
     if(self.upload_uuid.present?)
-      upload = Upload.find_by!(:uuid => self.upload_uuid)
-      new_photo = upload.build_photos.first
-      self.image = new_photo.image
-      self.image_filename = new_photo.image_filename
-      self.image_size = new_photo.image_size
-      self.image_content_type = new_photo.image_content_type
-      self.original_image = new_photo.original_image
-      self.original_image_filename = new_photo.original_image_filename
-      self.original_image_size = new_photo.original_image_size
-      self.original_image_content_type = new_photo.original_image_content_type
-      self.taken_at = new_photo.taken_at
-      self.latitude = new_photo.latitude
-      self.longitude = new_photo.longitude
-      self.altitude = new_photo.altitude
-      self.image_direction = new_photo.image_direction
-      if(self.caption.blank? && new_photo.caption.present?)
-        self.caption = new_photo.caption
-      end
-      upload.destroy
+      self.report.update_column(:upload_progress, "pending")
+      Delayed::Job.enqueue(PhotoUploadReplacementJob.new(self.id, self.upload_uuid))
+    end
+  end
+
+  def set_upload_metadata
+    if(self.image.present? && self.image_cache.present?)
+      self.image_content_type = self.image.content_type
+      self.image_size = self.image.size
     end
   end
 end

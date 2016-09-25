@@ -4,6 +4,7 @@
 @import "bootswatch/_bootswatch";
 @import "fine-uploader/fine-uploader-new";
 @import "datatables/dataTables.bootstrap";
+@import "_flower_spinner";
 
 
 body {
@@ -173,5 +174,22 @@ abbr[title=required] {
   100% {
     -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
+  }
+}
+
+.progress-notice {
+  max-width: 500px;
+  margin: 0px auto;
+  text-align: center;
+
+  h3 {
+    color: #fff;
+    margin: 0px;
+  }
+
+  .loader-container {
+    text-align: center;
+    height: 100px;
+    padding-top: 50px;
   }
 }

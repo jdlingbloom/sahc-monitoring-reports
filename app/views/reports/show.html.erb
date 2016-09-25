@@ -33,13 +33,20 @@
   </div>
   <% @report.photos.each do |photo| %>
     <div class="row">
-      <div class="col-sm-3"><%= attachment_image_tag(photo, :image, :limit, 200, 200, :class => "img-responsive center-block") %></div>
+      <div class="col-sm-3"><%= image_tag(photo.image.thumbnail.url, :class => "img-responsive center-block") %></div>
       <div class="col-sm-9">
         <% if(photo.caption.present?) %>
           <p><%= photo.caption %></p>
         <% end %>
 
         <%= render("photo_metadata", :photo => photo) %>
+      </div>
+    </div>
+  <% end %>
+  <% if(@report.upload_progress == "pending") %>
+    <div class="row">
+      <div class="col-sm-offset-3 col-sm-9">
+        <div class="alert alert-info" role="alert">File uploads are in progress...</div>
       </div>
     </div>
   <% end %>

@@ -1,4 +1,40 @@
 <% breadcrumb(:edit_report, @report) %>
 
-<h1>Edit Monitoring Report</h1>
-<%= render("form") %>
+<% if(@report.upload_progress == "pending") %>
+  <div class="alert alert-info progress-notice" role="alert">
+    <h3>Processing file uploads...</h3>
+    <p>This may take a little while depending on how many files you uploaded.<br>The page will automatically refresh once processing has finished.</p>
+    <div class="loader-container">
+      <div class="flower-loader"></div>
+    </div>
+  </div>
+  <script>
+    function poll() {
+      $.ajax({
+        url: '/reports/<%= @report.id %>.json',
+      }).done(function(data) {
+        if(data && data.upload_progress !== 'pending') {
+          var params = '';
+          if(data.upload_progress === null) {
+            params = '?new_uploads=true';
+          }
+          window.location.href = window.location.href + params;
+        }
+      }).always(function() {
+        setTimeout(poll, 500);
+      });
+    }
+    poll();
+  </script>
+<% else %>
+  <h1>Edit Monitoring Report</h1>
+
+  <% if(@report.upload_progress.present?) %>
+    <div class="alert alert-danger progress-notice" role="alert">
+      <h3>Error Processing File Uploads</h3>
+      <p>An unexpected error occurred while processing the file uploads.</p>
+    </div>
+  <% end %>
+
+  <%= render("form") %>
+<% end %>

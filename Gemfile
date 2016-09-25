@@ -4,6 +4,9 @@ ruby "2.3.1"
 
 gem "rails", "~> 4.2.7.1"
 
+# Process management
+gem "foreman", "~> 0.82.0"
+
 # For deploying to Heroku.
 gem "rails_12factor", :groups => [:production]
 
@@ -41,9 +44,9 @@ gem "rubyzip", "~> 1.2.0", :require => "zip"
 gem "htmlentities", "~> 4.3.4"
 
 # File Uploads
-gem "refile", "~> 0.6.2", :require => "refile/rails"
-gem "refile-postgres", "~> 1.4.0"
-gem "refile-mini_magick", "~> 0.2.0"
+gem "carrierwave", "~> 1.0.0.beta"
+gem "carrierwave-postgresql-table", "~> 0.1.0"
+gem "mini_magick", "~> 4.5.1"
 
 # Caching for refile's uploads
 gem "rack-cache", "~> 1.6.1"
@@ -52,7 +55,10 @@ gem "rack-cache", "~> 1.6.1"
 gem "paranoia", "~> 2.1.5"
 
 # Userstamping
-gem "activerecord-userstamp", "~> 3.0.4"
+#
+# This branch fixes loading issues with delayed_job:
+# https://github.com/lowjoel/activerecord-userstamp/pull/12
+gem "activerecord-userstamp", "~> 3.0.4", :git => "https://github.com/lowjoel/activerecord-userstamp.git", :branch => "delay-association-definition"
 
 # PDF generation
 gem "prawn", "~> 2.1.0"
@@ -73,6 +79,10 @@ gem "omniauth-google-oauth2", "~> 0.4.1"
 
 # Breadcrumbs
 gem "gretel", "~> 3.0.9"
+
+# Background jobs
+gem "delayed_job_active_record", "~> 4.1.1"
+gem "daemons", "~> 1.2.4"
 
 group :development, :test do
   # Add comments to models describing the available columns
