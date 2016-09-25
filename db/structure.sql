@@ -147,37 +147,6 @@ ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
 
 
 --
--- Name: refile_attachments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE refile_attachments (
-    id integer NOT NULL,
-    oid oid NOT NULL,
-    namespace character varying NOT NULL,
-    created_at timestamp without time zone DEFAULT ('now'::text)::timestamp without time zone
-);
-
-
---
--- Name: refile_attachments_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE refile_attachments_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: refile_attachments_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE refile_attachments_id_seq OWNED BY refile_attachments.id;
-
-
---
 -- Name: reports; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -331,13 +300,6 @@ ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::reg
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY refile_attachments ALTER COLUMN id SET DEFAULT nextval('refile_attachments_id_seq'::regclass);
-
-
---
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
---
-
 ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
 
 
@@ -377,14 +339,6 @@ ALTER TABLE ONLY delayed_jobs
 
 ALTER TABLE ONLY photos
     ADD CONSTRAINT photos_pkey PRIMARY KEY (id);
-
-
---
--- Name: refile_attachments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
---
-
-ALTER TABLE ONLY refile_attachments
-    ADD CONSTRAINT refile_attachments_pkey PRIMARY KEY (id);
 
 
 --
@@ -430,20 +384,6 @@ CREATE UNIQUE INDEX index_carrierwave_files_on_path ON carrierwave_files USING b
 --
 
 CREATE INDEX index_photos_on_deleted_at ON photos USING btree (deleted_at);
-
-
---
--- Name: index_refile_attachments_on_namespace; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_refile_attachments_on_namespace ON refile_attachments USING btree (namespace);
-
-
---
--- Name: index_refile_attachments_on_oid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE INDEX index_refile_attachments_on_oid ON refile_attachments USING btree (oid);
 
 
 --

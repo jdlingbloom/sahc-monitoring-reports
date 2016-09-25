@@ -37,10 +37,16 @@ class CarrierwaveForUploads < ActiveRecord::Migration
       execute("DELETE FROM refile_attachments WHERE oid = #{upload["file_id"]}")
     end
 
+    execute("DELETE FROM refile_attachments WHERE namespace = 'cache'")
+
     remaining = Integer(select_value("SELECT COUNT(*) FROM refile_attachments"))
     if(remaining != 0)
+      puts select_rows("SELECT * FROM refile_attachments").inspect
       raise "Still refile attachment records remaining"
     end
+
+    older_than = Time.now.utc - 1.day
+    execute("DELETE FROM #{Upload.table_name} WHERE created_at < #{quote(older_than)}")
 
     remove_column :photos, :image_id
     remove_column :photos, :image_filename
@@ -58,6 +64,10 @@ class CarrierwaveForUploads < ActiveRecord::Migration
       puts "Recreating versions for photo #{photo.id}..."
       photo.image.recreate_versions!
     end
+
+    drop_table :refile_attachments
+
+    execute("SELECT lo_unlink(loid) FROM (SELECT DISTINCT loid FROM pg_largeobject WHERE loid NOT IN(SELECT DISTINCT pg_largeobject_oid FROM carrierwave_files)) AS oids")
   end
 
   def down
