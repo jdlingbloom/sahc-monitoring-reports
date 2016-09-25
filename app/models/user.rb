@@ -33,6 +33,9 @@ class User < ActiveRecord::Base
 
   devise :omniauthable, :trackable
 
+  # Validations
+  schema_validations
+
   def self.from_omniauth(auth)
     user = User.find_by(:provider => auth.provider, :uid => auth.uid)
 

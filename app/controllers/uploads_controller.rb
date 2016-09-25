@@ -18,7 +18,15 @@ class UploadsController < ApplicationController
   end
 
   def create
-    Upload.create!(upload_params)
+    begin
+      # If an upload fails, then it may be retried with the same UUID, so find
+      # or create based on the UUID.
+      upload = Upload.find_or_initialize_by(:uuid => upload_params[:uuid])
+      upload.assign_attributes(upload_params)
+      upload.save!
+    rescue ActiveRecord::RecordNotUnique
+      retry
+    end
 
     render :json => { :success => true }
   end

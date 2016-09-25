@@ -28,6 +28,8 @@ class Upload < ActiveRecord::Base
   # Callbacks
   before_validation :set_upload_metadata
 
+  # Validations
+  #
   # Exclude file uploads from automatic schema validations, since length
   # validations validate the file size (not filename length) for file uploads.
   schema_validations :except => [:file]

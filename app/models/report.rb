@@ -33,6 +33,7 @@ class Report < ActiveRecord::Base
   attr_accessor :upload_uuids
 
   # Validations
+  schema_validations
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true
   validates :photographer_name, :presence => true
@@ -69,7 +70,7 @@ class Report < ActiveRecord::Base
   def handle_uploads
     if(self.upload_uuids.present?)
       self.update_column(:upload_progress, "pending")
-      Delayed::Job.enqueue(ReportUploadsJob.new(self.id, self.upload_uuids))
+      Delayed::Job.enqueue(ReportUploadsJob.new(self.id, self.upload_uuids.uniq))
     end
   end
 end

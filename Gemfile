@@ -45,7 +45,7 @@ gem "htmlentities", "~> 4.3.4"
 
 # File Uploads
 gem "carrierwave", "~> 1.0.0.beta"
-gem "carrierwave-postgresql-table", "~> 0.1.0"
+gem "carrierwave-postgresql-table", "~> 0.1.1"
 gem "mini_magick", "~> 4.5.1"
 
 # Caching for refile's uploads
@@ -83,6 +83,9 @@ gem "gretel", "~> 3.0.9"
 # Background jobs
 gem "delayed_job_active_record", "~> 4.1.1"
 gem "daemons", "~> 1.2.4"
+
+# Prevent long-running requests.
+gem "rack-timeout", "~> 0.4.2"
 
 group :development, :test do
   # Add comments to models describing the available columns

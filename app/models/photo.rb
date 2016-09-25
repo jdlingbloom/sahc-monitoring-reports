@@ -65,6 +65,8 @@ class Photo < ActiveRecord::Base
   before_validation :set_upload_metadata
   after_commit :handle_upload_replacement
 
+  # Validations
+  #
   # Exclude file uploads from automatic schema validations, since length
   # validations validate the file size (not filename length) for file uploads.
   schema_validations :except => [:image]
