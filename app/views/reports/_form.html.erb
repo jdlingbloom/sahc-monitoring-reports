@@ -42,9 +42,6 @@
       <% next unless(pf.object.persisted?) %>
       <div class="row form-group">
         <div class="col-sm-3 text-center">
-          <%= pf.object.image.path.inspect %>
-          <%= pf.object.image.root.inspect %>
-          <%= pf.object.image.url.inspect %>
           <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
           <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
           <%= link_to("Replace photo", "#", :id => "uploader_#{pf.object.id}_toggle") %>
