@@ -67,7 +67,7 @@ class CarrierwaveForUploads < ActiveRecord::Migration
 
     drop_table :refile_attachments
 
-    execute("SELECT lo_unlink(loid) FROM (SELECT DISTINCT loid FROM pg_largeobject WHERE loid NOT IN(SELECT DISTINCT pg_largeobject_oid FROM carrierwave_files)) AS oids")
+    execute("SELECT lo_unlink(oid) FROM (SELECT DISTINCT oid FROM pg_largeobject_metadata WHERE oid NOT IN(SELECT DISTINCT pg_largeobject_oid FROM carrierwave_files)) AS oids")
   end
 
   def down
