@@ -45,7 +45,7 @@ gem "htmlentities", "~> 4.3.4"
 
 # File Uploads
 gem "carrierwave", "~> 1.0.0.beta"
-gem "carrierwave-postgresql-table", "~> 0.1.1"
+gem "carrierwave-postgresql-table", "~> 0.1.2"
 gem "mini_magick", "~> 4.5.1"
 
 # Caching for refile's uploads
