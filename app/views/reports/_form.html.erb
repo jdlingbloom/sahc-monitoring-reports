@@ -42,8 +42,12 @@
       <% next unless(pf.object.persisted?) %>
       <div class="row form-group">
         <div class="col-sm-3 text-center">
-          <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
-          <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
+          <% if(pf.object.image? && pf.object.image.file.last_modified) %>
+            <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
+            <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
+          <% else %>
+            <em>Missing photo</em><br>
+          <% end %>
           <%= link_to("Replace photo", "#", :id => "uploader_#{pf.object.id}_toggle") %>
           <div id="uploader_<%= pf.object.id %>_container" style="display: none;">
             <div id="uploader_<%= pf.object.id %>"></div>

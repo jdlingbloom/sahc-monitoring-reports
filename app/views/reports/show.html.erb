@@ -33,7 +33,13 @@
   </div>
   <% @report.photos.each do |photo| %>
     <div class="row">
-      <div class="col-sm-3"><%= image_tag(photo.image.thumbnail.url, :class => "img-responsive center-block") %></div>
+      <div class="col-sm-3">
+        <% if(photo.image? && photo.image.file.last_modified) %>
+          <%= image_tag(photo.image.thumbnail.url, :class => "img-responsive center-block") %>
+        <% else %>
+          <em>Missing photo</em>
+        <% end %>
+      </div>
       <div class="col-sm-9">
         <% if(photo.caption.present?) %>
           <p><%= photo.caption %></p>

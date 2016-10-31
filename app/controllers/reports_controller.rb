@@ -101,7 +101,9 @@ class ReportsController < ApplicationController
             col = index % cols
 
             pdf.grid(row, col).bounding_box do
-              pdf.image photo.image.default.file.to_tempfile, :fit => [pdf.bounds.width, pdf.bounds.height - 69.6], :position => :center
+              if(photo.image? && photo.image.file.last_modified)
+                pdf.image photo.image.default.file.to_tempfile, :fit => [pdf.bounds.width, pdf.bounds.height - 69.6], :position => :center
+              end
               pdf.rectangle [0, pdf.cursor], pdf.bounds.width, 6
               pdf.fill
               pdf.move_down 1
