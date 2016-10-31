@@ -3,5 +3,8 @@
 # application.
 Rack::Timeout.service_timeout = 28 # seconds
 
+# Disable wait timeouts to allow for larger uploads on Heroku.
+Rack::Timeout.wait_timeout = false
+
 # Better rack-timeout errors for rollbar.
 require "rack/timeout/rollbar"
