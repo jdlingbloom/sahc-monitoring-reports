@@ -31,29 +31,31 @@ function setupUploader(name, uuidInputName, overrides) {
       allowedExtensions: ['jpg', 'jpeg', 'kmz'],
     },
     callbacks: {
-      onSubmit: function() {
-        $('button[type=submit]').attr('disabled', 'disabled');
-        $('form').bind('submit', function(e) { e.preventDefault(); });
-      },
-      onComplete: function(id) {
-        if(overrides && overrides.multiple === false) {
-          $uuids.empty();
+      onStatusChange: function() {
+        var uploads = this.getUploads();
+        var uuids = [];
+        for(var i = 0; i < uploads.length; i++) {
+          var upload = uploads[i];
+          if(upload.status === qq.status.UPLOAD_SUCCESSFUL) {
+            uuids.push(upload.uuid);
+          } else if(upload.status !== qq.status.CANCELED && upload.status !== qq.status.REJECTED && upload.status !== qq.status.DELETED) {
+            $('button[type=submit]').attr('disabled', 'disabled');
+            $('form').bind('submit', function(e) { e.preventDefault(); });
+            return;
+          }
         }
 
-        var uuid = this.getUuid(id);
-        $('<input>').attr({
-          type: 'hidden',
-          name: uuidInputName,
-          value: uuid,
-        }).appendTo($uuids);
-      },
-      onAllComplete: function() {
+        $uuids.empty();
+        for(var i = 0; i < uuids.length; i++) {
+          $('<input>').attr({
+            type: 'hidden',
+            name: uuidInputName,
+            value: uuids[i],
+          }).appendTo($uuids);
+        }
+
         $('button[type=submit]').removeAttr('disabled', 'disabled');
         $('form').unbind('submit');
-      },
-      onDelete: function(id) {
-        var uuid = this.getUuid(id);
-        $uuids.find('[value=' + uuid + ']').remove();
       },
     },
   };

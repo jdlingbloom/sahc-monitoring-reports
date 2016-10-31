@@ -1,7 +1,7 @@
 <%= assets_manifest.find_sources("fine-uploader/simple-thumbnails.html").first.html_safe %><br>
 
 <%= simple_form_for(@report, :wrapper => :horizontal_form) do |f| %>
-  <%= f.error_notification %>
+  <%= render("/form_errors", :record => @report) %>
 
   <p><abbr title="required">*</abbr> Required field</p>
 
@@ -9,14 +9,14 @@
     <%= f.input :property_name %>
     <%= f.input :monitoring_year, :collection => monitoring_year_options(@report), :input_html => { :class => "form-control-inline" } %>
     <%= f.input :photographer_name %>
-    <% if(!@report.new_record?) %>
+    <% if(@report.photos.present?) %>
       <div class="form-group">
         <div class="col-sm-offset-3 col-sm-9">
           <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#", :id => "uploader_toggle") %>
         </div>
       </div>
     <% end %>
-    <div class="form-group" id="uploader_container" style="<%= "display: none" if(!@report.new_record?) %>">
+    <div class="form-group" id="uploader_container" style="<%= "display: none" if(@report.photos.present?) %>">
       <div class="col-sm-3 control-label">
         <label for="property"><abbr title="required">*</abbr> Photos</label>
         <span class="help-block">Upload either JPEG files or KMZ files.</span>

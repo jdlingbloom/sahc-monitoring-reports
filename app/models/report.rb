@@ -37,6 +37,7 @@ class Report < ActiveRecord::Base
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true
   validates :photographer_name, :presence => true
+  validate :validate_photos_presence
 
   # Callbacks
   after_commit :handle_uploads
@@ -66,6 +67,12 @@ class Report < ActiveRecord::Base
   end
 
   private
+
+  def validate_photos_presence
+    if(self.photos.blank? && self.upload_uuids.blank?)
+      self.errors.add(:base, "Must upload one or more photos.")
+    end
+  end
 
   def handle_uploads
     if(self.upload_uuids.present?)
