@@ -108,6 +108,12 @@ class Photo < ActiveRecord::Base
     @image_direction_heading
   end
 
+  def caption_cleaned
+    # Some data read in seems to contain non breaking spaces, which interferes
+    # with line wrapping in the PDFs. Replace these with normal spaces.
+    self.caption.gsub(/\u00a0/, " ").strip
+  end
+
   private
 
   def handle_upload_replacement

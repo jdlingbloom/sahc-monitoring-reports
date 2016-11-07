@@ -112,7 +112,7 @@ class ReportsController < ApplicationController
                 pdf.text "#{l(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
               end
               pdf.move_down 3
-              pdf.text_box "Photo #{photo_num}: #{photo.caption}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
+              pdf.text_box "Photo #{photo_num}: #{photo.caption_cleaned}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
             end
 
             photo_num += 1

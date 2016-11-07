@@ -42,7 +42,7 @@
       </div>
       <div class="col-sm-9">
         <% if(photo.caption.present?) %>
-          <p><%= photo.caption %></p>
+          <p><%= photo.caption_cleaned %></p>
         <% end %>
 
         <%= render("photo_metadata", :photo => photo) %>
