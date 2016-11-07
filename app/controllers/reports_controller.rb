@@ -71,21 +71,19 @@ class ReportsController < ApplicationController
         pdf.bounding_box([0, pdf.bounds.height], :width => pdf.bounds.width, :height => header_height) do
           pdf.define_grid(:columns => 12, :rows => 1, :gutter => 10)
 
-          if(page_index == 0)
-            pdf.grid([0, 0], [0, 3]).bounding_box do
-              pdf.move_down 12
-              pdf.stroke_horizontal_rule
-              pdf.move_down 2
-              pdf.text "Signature of photographer"
-              pdf.text "#{@report.photographer_name}, SAHC"
-            end
+          pdf.grid([0, 0], [0, 3]).bounding_box do
+            pdf.move_down 12
+            pdf.stroke_horizontal_rule
+            pdf.move_down 2
+            pdf.text "Signature of photographer"
+            pdf.text "#{@report.photographer_name}, SAHC"
+          end
 
-            pdf.grid([0, 4], [0, 5]).bounding_box do
-              pdf.move_down 12
-              pdf.stroke_horizontal_rule
-              pdf.move_down 2
-              pdf.text "Date"
-            end
+          pdf.grid([0, 4], [0, 5]).bounding_box do
+            pdf.move_down 12
+            pdf.stroke_horizontal_rule
+            pdf.move_down 2
+            pdf.text "Date"
           end
 
           pdf.grid([0, 6], [0, 11]).bounding_box do
