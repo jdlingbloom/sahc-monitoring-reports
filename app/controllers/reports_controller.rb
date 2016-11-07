@@ -108,7 +108,7 @@ class ReportsController < ApplicationController
               pdf.fill
               pdf.move_down 1
               pdf.font("Helvetica") do
-                pdf.text "#{l(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Dir=#{photo.image_direction_heading} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
+                pdf.text "#{l(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
               end
               pdf.move_down 3
               pdf.text_box "Photo #{index + 1}: #{photo.caption}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
