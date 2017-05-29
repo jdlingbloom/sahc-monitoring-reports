@@ -76,7 +76,7 @@ class ReportsController < ApplicationController
             pdf.stroke_horizontal_rule
             pdf.move_down 2
             pdf.text "Signature of photographer"
-            pdf.text "#{@report.photographer_name}, SAHC"
+            pdf.text "#{@report.photographer_name}, SAHC", :overflow => :shrink_to_fit
           end
 
           pdf.grid([0, 4], [0, 5]).bounding_box do
@@ -87,8 +87,16 @@ class ReportsController < ApplicationController
           end
 
           pdf.grid([0, 6], [0, 11]).bounding_box do
-            pdf.text "All photos taken on #{l(@report.photos_date, :format => :short) if(@report.photos_date)}", :align => :right
-            pdf.text "unless otherwise noted", :align => :right
+            photo_dates = @report.photo_dates
+            if(photo_dates.length == 1)
+              pdf.text "All photos taken on #{l(photo_dates.keys.first, :format => :short)}", :align => :right
+            else
+              date_texts = []
+              photo_dates.each do |date, range|
+                date_texts << "Photos #{range.first}-#{range.last} taken on #{l(date, :format => :short)}"
+              end
+              pdf.text date_texts.join("\n"), :align => :right, :overflow => :shrink_to_fit
+            end
           end
         end
 

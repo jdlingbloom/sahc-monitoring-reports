@@ -50,19 +50,22 @@ class Report < ActiveRecord::Base
     @display_name ||= "#{self.monitoring_year} #{self.property_name}"
   end
 
-  def photos_date
-    frequency = {}
-    dates = self.photos.map { |p| p.taken_at.to_date if(p.taken_at) }.compact
-    dates.each do |date|
-      frequency[date] ||= 0
-      frequency[date] += 1
+  def photo_dates
+    dates = {}
+    self.photos.each_with_index do |photo, index|
+      if(photo.taken_at)
+        photo_num = index + 1
+        date = photo.taken_at.to_date
+        dates[date] ||= []
+        dates[date] << photo_num
+      end
     end
 
-    # Find the most frequently used date among all the photos. In the case of
-    # tie, pick the first date.
-    most_frequent = dates.max_by { |date| [frequency[date], date.to_time.to_i * -1] }
+    dates.each do |date, photo_nums|
+      dates[date] = photo_nums.first..photo_nums.last
+    end
 
-    most_frequent
+    dates
   end
 
   private
