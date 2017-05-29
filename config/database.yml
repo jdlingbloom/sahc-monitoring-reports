@@ -19,7 +19,14 @@ default: &default
   encoding: unicode
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
-  pool: 5
+  pool: <%= ENV["DB_POOL"] || ENV["RAILS_MAX_THREADS"] || 5 %>
+  # Disable prepared_statements, since we're using rack-timeout, which can
+  # corrupt the usage of prepared statements if a timeout is hit:
+  # https://github.com/heroku/rack-timeout/issues/113
+  #
+  # This can be re-enabled if Rails ever fixes this:
+  # https://github.com/rails/rails/pull/25827
+  prepared_statements: false
 
 development:
   <<: *default
