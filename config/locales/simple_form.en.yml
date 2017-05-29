@@ -12,9 +12,11 @@ en:
       default_message: "Please review the problems below:"
     labels:
       report:
+        type: Report Type
         property_name: Property Name
         monitoring_year: Year of Monitoring
         photographer_name: Photographer Name
+        extra_signatures: Additional Signatures to Require
       photos:
         _destroy: Delete
   helpers:

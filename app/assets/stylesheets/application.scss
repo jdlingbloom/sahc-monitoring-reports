@@ -57,6 +57,7 @@ a span.glyphicon {
 
 abbr[title=required] {
   border-style: none;
+  text-decoration: none;
   cursor: default;
   color: #E87723;
   font-family: "Verdana";
@@ -199,10 +200,21 @@ abbr[title=required] {
   }
 }
 
-.edit_report .photo-form {
+.edit_report .photo-form,
+.new_report .photo-form,
+.edit_report .form-horizontal > .form-group,
+.new_report .form-horizontal > .form-group {
   border-top: 1px solid #e3e3e3;
   padding-top: 10px;
   padding-bottom: 0px;
   margin-top: 10px;
   margin-bottom: 10px;
+}
+
+.form-group.array .form-control {
+  margin-top: 8px;
+}
+
+.form-group.array .form-control:first-child {
+  margin-top: 0px;
 }

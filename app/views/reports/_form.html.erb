@@ -1,18 +1,21 @@
 <%= assets_manifest.find_sources("fine-uploader/simple-thumbnails.html").first.html_safe %><br>
 
-<%= simple_form_for(@report, :wrapper => :horizontal_form) do |f| %>
+<%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_radio_and_checkboxes }) do |f| %>
   <%= render("/form_errors", :record => @report) %>
 
   <p><abbr title="required">*</abbr> Required field</p>
 
   <div class="form-horizontal">
+    <%= f.input :type, :as => :radio_buttons, :collection => Report::TYPES.invert %>
     <%= f.input :property_name %>
     <%= f.input :monitoring_year, :collection => monitoring_year_options(@report), :input_html => { :class => "form-control-inline" } %>
     <%= f.input :photographer_name %>
+    <% @report.extra_signatures ||= [""] %>
+    <%= f.input :extra_signatures, :as => :array %>
     <% if(@report.photos.present?) %>
-      <div class="form-group">
+      <div class="form-group" id="uploader_toggle">
         <div class="col-sm-offset-4 col-sm-8">
-          <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#", :id => "uploader_toggle") %>
+          <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#") %>
         </div>
       </div>
     <% end %>
@@ -50,7 +53,9 @@
           <% else %>
             <em>Missing photo</em><br>
           <% end %>
-          <%= link_to("Replace photo", "#", :id => "uploader_#{pf.object.id}_toggle") %>
+          <div id="uploader_<%= pf.object.id %>_toggle">
+            <%= link_to("Replace photo", "#") %>
+          </div>
           <div id="uploader_<%= pf.object.id %>_container" style="display: none;">
             <div id="uploader_<%= pf.object.id %>"></div>
             <div id="uploader_<%= pf.object.id %>_uuids"></div>
@@ -95,4 +100,16 @@
       }
     });
   });
+
+
+  var $arrayContainer = $('.form-group.array .control-input')
+  function appendArrayElement() {
+    if($arrayContainer.find('input:last-child').val() !== '') {
+      var $newElement = $('.form-group.array input:last-child').clone();
+      $newElement.val('');
+      $arrayContainer.append($newElement);
+    }
+  }
+  appendArrayElement();
+  $arrayContainer.on('keyup', 'input', appendArrayElement);
 </script>

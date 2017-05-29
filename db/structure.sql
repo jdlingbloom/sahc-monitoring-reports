@@ -30,6 +30,16 @@ COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
 
 SET search_path = public, pg_catalog;
 
+--
+-- Name: report_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE report_type AS ENUM (
+    'baseline',
+    'monitoring'
+);
+
+
 SET default_tablespace = '';
 
 SET default_with_oids = false;
@@ -167,7 +177,9 @@ CREATE TABLE reports (
     updater_id integer,
     deleter_id integer,
     upload_progress character varying(20),
-    pdf_progress character varying(20)
+    pdf_progress character varying(20),
+    type report_type DEFAULT 'monitoring'::report_type NOT NULL,
+    extra_signatures character varying(255)[]
 );
 
 
@@ -461,4 +473,8 @@ INSERT INTO schema_migrations (version) VALUES ('20170528233325');
 INSERT INTO schema_migrations (version) VALUES ('20170528233338');
 
 INSERT INTO schema_migrations (version) VALUES ('20170528233404');
+
+INSERT INTO schema_migrations (version) VALUES ('20170529135012');
+
+INSERT INTO schema_migrations (version) VALUES ('20170529165420');
 

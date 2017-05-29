@@ -3,7 +3,7 @@ function setupUploader(name, uuidInputName, overrides) {
   var $toggle = $('#' + name + '_toggle');
   var $uuids = $('#' + name + '_uuids');
 
-  $toggle.click(function(event) {
+  $toggle.find('a').click(function(event) {
     $container.show();
     $toggle.hide();
     event.preventDefault();

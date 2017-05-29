@@ -11,10 +11,11 @@
   <thead>
     <tr>
       <th>Property Name</th>
-      <th>Monitoring Year</th>
-      <th>Created</th>
-      <th>Last Updated</th>
-      <th></th>
+      <th style="width: 100px;">Monitoring Year</th>
+      <th style="width: 95px;">Report Type</th>
+      <th style="width: 105px;">Created</th>
+      <th style="width: 105px;">Last Updated</th>
+      <th style="width: 180px;"></th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
       <tr>
         <td><%= link_to(report.property_name, report_path(report)) %></td>
         <td><%= report.monitoring_year %></td>
+        <td><%= report.type_name %></td>
         <td data-order="<%= report.created_at.iso8601 %>"><%= l(report.created_at, :format => :long) %></td>
         <td data-order="<%= report.updated_at.iso8601 %>"><%= l(report.updated_at, :format => :long) %></td>
         <td class="actions">
@@ -37,11 +39,11 @@
   $(document).ready(function(){
     $('table').DataTable({
       pageLength: 50,
-      order: [[2, 'desc']],
+      order: [[3, 'desc']],
       columnDefs: [
-        { targets: 2, type: 'string' },
         { targets: 3, type: 'string' },
-        { targets: 4, orderable: false },
+        { targets: 4, type: 'string' },
+        { targets: 5, orderable: false },
       ]
     });
   });

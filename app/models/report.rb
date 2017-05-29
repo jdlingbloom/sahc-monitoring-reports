@@ -14,6 +14,8 @@
 #  deleter_id        :integer
 #  upload_progress   :string(20)
 #  pdf_progress      :string(20)
+#  type              :enum             default("monitoring"), not null
+#  extra_signatures  :string(255)      is an Array
 #
 # Indexes
 #
@@ -24,6 +26,14 @@ class Report < ActiveRecord::Base
   acts_as_paranoid
   stampable
 
+  TYPES = {
+    "monitoring" => "Monitoring Report",
+    "baseline" => "Baseline Report",
+  }
+
+  # Disable STI
+  self.inheritance_column = :_type_disabled
+
   # Associations
   has_many :photos, -> { order(:taken_at, :image, :id) }, :dependent => :destroy
   accepts_nested_attributes_for :photos, :allow_destroy => true
@@ -33,6 +43,7 @@ class Report < ActiveRecord::Base
 
   # Validations
   schema_validations
+  validates :type, :presence => true, :inclusion => { :in => TYPES.keys }
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true
   validates :photographer_name, :presence => true
@@ -44,6 +55,10 @@ class Report < ActiveRecord::Base
   def upload_uuids=(uuids)
     attribute_will_change!(:upload_uuids) if(@upload_uuids != uuids)
     @upload_uuids = uuids
+  end
+
+  def type_name
+    TYPES[self.type]
   end
 
   def display_name
@@ -67,6 +82,15 @@ class Report < ActiveRecord::Base
 
     dates
   end
+
+  def extra_signatures=(extra)
+    if(extra.present?)
+      extra = extra.reject { |e| e.blank? }
+    end
+
+    super(extra)
+  end
+
 
   private
 

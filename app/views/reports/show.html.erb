@@ -12,6 +12,10 @@
 
 <div class="details">
   <div class="row">
+    <div class="col-sm-4">Report Type:</div>
+    <div class="col-sm-8"><%= @report.type_name %></div>
+  </div>
+  <div class="row">
     <div class="col-sm-4">Property Name:</div>
     <div class="col-sm-8"><%= @report.property_name %></div>
   </div>
@@ -23,6 +27,11 @@
     <div class="col-sm-4">Photographer Name:</div>
     <div class="col-sm-8"><%= @report.photographer_name %></div>
   </div>
+  <div class="row">
+    <div class="col-sm-4">Additional Signatures to Require:</div>
+    <div class="col-sm-8"><%= safe_join(@report.extra_signatures, "<br>".html_safe) if(@report.extra_signatures.present?) %></div>
+  </div>
+
   <div class="row">
     <div class="col-sm-4">Created:</div>
     <div class="col-sm-8"><%= l(@report.created_at, :format => :long_tz) %> by <%= @report.creator.email %></div>
