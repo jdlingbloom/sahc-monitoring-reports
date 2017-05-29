@@ -25,8 +25,7 @@ class Report < ActiveRecord::Base
   stampable
 
   # Associations
-  has_many :uploads
-  has_many :photos, -> { order(:taken_at, :image, :id) }
+  has_many :photos, -> { order(:taken_at, :image, :id) }, :dependent => :destroy
   accepts_nested_attributes_for :photos, :allow_destroy => true
 
   # Virtual attributes

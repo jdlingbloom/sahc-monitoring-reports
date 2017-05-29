@@ -24,6 +24,10 @@
 #
 #  index_photos_on_deleted_at  (deleted_at)
 #
+# Foreign Keys
+#
+#  fk_rails_...  (report_id => reports.id)
+#
 
 class Photo < ActiveRecord::Base
   # https://github.com/DaAwesomeP/arduino-cardinal/wiki/Types/fb25844994f1fb2b0eb915c73766827459388cfb#type-2

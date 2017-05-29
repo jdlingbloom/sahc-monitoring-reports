@@ -2,12 +2,17 @@
 -- PostgreSQL database dump
 --
 
+-- Dumped from database version 9.6.3
+-- Dumped by pg_dump version 9.6.3
+
 SET statement_timeout = 0;
 SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
+SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -30,7 +35,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: carrierwave_files; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: carrierwave_files; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE carrierwave_files (
@@ -64,7 +69,7 @@ ALTER SEQUENCE carrierwave_files_id_seq OWNED BY carrierwave_files.id;
 
 
 --
--- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE delayed_jobs (
@@ -103,7 +108,7 @@ ALTER SEQUENCE delayed_jobs_id_seq OWNED BY delayed_jobs.id;
 
 
 --
--- Name: photos; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: photos; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE photos (
@@ -147,7 +152,7 @@ ALTER SEQUENCE photos_id_seq OWNED BY photos.id;
 
 
 --
--- Name: reports; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: reports; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE reports (
@@ -186,7 +191,7 @@ ALTER SEQUENCE reports_id_seq OWNED BY reports.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE schema_migrations (
@@ -195,7 +200,7 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: uploads; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: uploads; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE uploads (
@@ -231,7 +236,7 @@ ALTER SEQUENCE uploads_id_seq OWNED BY uploads.id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: -
 --
 
 CREATE TABLE users (
@@ -276,49 +281,49 @@ ALTER SEQUENCE users_id_seq OWNED BY users.id;
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: carrierwave_files id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY carrierwave_files ALTER COLUMN id SET DEFAULT nextval('carrierwave_files_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: delayed_jobs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY delayed_jobs ALTER COLUMN id SET DEFAULT nextval('delayed_jobs_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: photos id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY photos ALTER COLUMN id SET DEFAULT nextval('photos_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: reports id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports ALTER COLUMN id SET DEFAULT nextval('reports_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: uploads id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY uploads ALTER COLUMN id SET DEFAULT nextval('uploads_id_seq'::regclass);
 
 
 --
--- Name: id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
 --
--- Name: carrierwave_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: carrierwave_files carrierwave_files_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY carrierwave_files
@@ -326,7 +331,7 @@ ALTER TABLE ONLY carrierwave_files
 
 
 --
--- Name: delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs delayed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY delayed_jobs
@@ -334,7 +339,7 @@ ALTER TABLE ONLY delayed_jobs
 
 
 --
--- Name: photos_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: photos photos_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY photos
@@ -342,7 +347,7 @@ ALTER TABLE ONLY photos
 
 
 --
--- Name: reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: reports reports_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY reports
@@ -350,7 +355,7 @@ ALTER TABLE ONLY reports
 
 
 --
--- Name: uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: uploads uploads_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY uploads
@@ -358,7 +363,7 @@ ALTER TABLE ONLY uploads
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY users
@@ -366,66 +371,74 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: delayed_jobs_priority; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX delayed_jobs_priority ON delayed_jobs USING btree (priority, run_at);
 
 
 --
--- Name: index_carrierwave_files_on_path; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_carrierwave_files_on_path; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_carrierwave_files_on_path ON carrierwave_files USING btree (path);
 
 
 --
--- Name: index_photos_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_photos_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_photos_on_deleted_at ON photos USING btree (deleted_at);
 
 
 --
--- Name: index_reports_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_reports_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_reports_on_deleted_at ON reports USING btree (deleted_at);
 
 
 --
--- Name: index_uploads_on_uuid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_uploads_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_uploads_on_uuid ON uploads USING btree (uuid);
 
 
 --
--- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_deleted_at; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_users_on_deleted_at ON users USING btree (deleted_at);
 
 
 --
--- Name: index_users_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: index_users_on_provider_and_uid; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX index_users_on_provider_and_uid ON users USING btree (provider, uid);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
 
 
 --
+-- Name: photos fk_rails_ff8adce01c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY photos
+    ADD CONSTRAINT fk_rails_ff8adce01c FOREIGN KEY (report_id) REFERENCES reports(id);
+
+
+--
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user",public;
+SET search_path TO "$user", public;
 
 INSERT INTO schema_migrations (version) VALUES ('20160903014955');
 
@@ -442,4 +455,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160924223129');
 INSERT INTO schema_migrations (version) VALUES ('20160925021236');
 
 INSERT INTO schema_migrations (version) VALUES ('20160925030340');
+
+INSERT INTO schema_migrations (version) VALUES ('20170528233325');
+
+INSERT INTO schema_migrations (version) VALUES ('20170528233338');
+
+INSERT INTO schema_migrations (version) VALUES ('20170528233404');
 

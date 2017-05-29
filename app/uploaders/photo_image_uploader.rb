@@ -6,7 +6,7 @@ class PhotoImageUploader < CarrierWave::Uploader::Base
   end
 
   version :thumbnail, :from_version => :default do
-    process :resize_to_fit => [200, 200]
+    process :resize_to_fit => [360, 360]
   end
 
   def store_dir

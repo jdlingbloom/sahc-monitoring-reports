@@ -56,7 +56,7 @@ gem "paranoia", "~> 2.3.1"
 
 # Userstamping
 #
-# This branch fixes loading issues with delayed_job:
+# Use master to fix loading issues with delayed_job:
 # https://github.com/lowjoel/activerecord-userstamp/pull/12
 gem "activerecord-userstamp", "~> 3.0.4", :git => "https://github.com/lowjoel/activerecord-userstamp.git"
 
@@ -89,7 +89,9 @@ gem "rack-timeout", "~> 0.4.2"
 
 group :development, :test do
   # Add comments to models describing the available columns
-  gem "annotate", "~> 2.7.1"
+  #
+  # Use master for Ruby 2.4 deprecation warning fixes.
+  gem "annotate", :git => "https://github.com/ctran/annotate_models.git", :branch => "develop"
 
   # Call "byebug" anywhere in the code to stop execution and get a debugger console
   gem "byebug"

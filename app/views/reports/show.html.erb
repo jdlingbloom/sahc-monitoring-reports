@@ -12,35 +12,35 @@
 
 <div class="details">
   <div class="row">
-    <div class="col-sm-3">Property Name:</div>
-    <div class="col-sm-9"><%= @report.property_name %></div>
+    <div class="col-sm-4">Property Name:</div>
+    <div class="col-sm-8"><%= @report.property_name %></div>
   </div>
   <div class="row">
-    <div class="col-sm-3">Year of Monitoring:</div>
-    <div class="col-sm-9"><%= @report.monitoring_year %></div>
+    <div class="col-sm-4">Year of Monitoring:</div>
+    <div class="col-sm-8"><%= @report.monitoring_year %></div>
   </div>
   <div class="row">
-    <div class="col-sm-3">Photographer Name:</div>
-    <div class="col-sm-9"><%= @report.photographer_name %></div>
+    <div class="col-sm-4">Photographer Name:</div>
+    <div class="col-sm-8"><%= @report.photographer_name %></div>
   </div>
   <div class="row">
-    <div class="col-sm-3">Created:</div>
-    <div class="col-sm-9"><%= l(@report.created_at, :format => :long_tz) %> by <%= @report.creator.email %></div>
+    <div class="col-sm-4">Created:</div>
+    <div class="col-sm-8"><%= l(@report.created_at, :format => :long_tz) %> by <%= @report.creator.email %></div>
   </div>
   <div class="row">
-    <div class="col-sm-3">Last Updated:</div>
-    <div class="col-sm-9"><%= l(@report.updated_at, :format => :long_tz) %> by <%= @report.updater.email %></div>
+    <div class="col-sm-4">Last Updated:</div>
+    <div class="col-sm-8"><%= l(@report.updated_at, :format => :long_tz) %> by <%= @report.updater.email %></div>
   </div>
   <% @report.photos.each do |photo| %>
     <div class="row">
-      <div class="col-sm-3">
+      <div class="col-sm-4">
         <% if(photo.image? && photo.image.file.last_modified) %>
           <%= image_tag(photo.image.thumbnail.url, :class => "img-responsive center-block") %>
         <% else %>
           <em>Missing photo</em>
         <% end %>
       </div>
-      <div class="col-sm-9">
+      <div class="col-sm-8">
         <% if(photo.caption.present?) %>
           <p><%= photo.caption_cleaned %></p>
         <% end %>
@@ -51,7 +51,7 @@
   <% end %>
   <% if(@report.upload_progress == "pending") %>
     <div class="row">
-      <div class="col-sm-offset-3 col-sm-9">
+      <div class="col-sm-offset-4 col-sm-8">
         <div class="alert alert-info" role="alert">File uploads are in progress...</div>
       </div>
     </div>
