@@ -118,12 +118,17 @@ abbr[title=required] {
     }
   }
 
-  .row .col-sm-3 {
+  .row .col-sm-4 {
     font-weight: bold;
 
     @media (min-width: $screen-sm-min) {
       text-align: right;
     }
+  }
+
+  .row .col-sm-4.photo {
+    font-weight: normal;
+    text-align: center;
   }
 }
 
@@ -192,4 +197,12 @@ abbr[title=required] {
     height: 100px;
     padding-top: 50px;
   }
+}
+
+.edit_report .photo-form {
+  border-top: 1px solid #e3e3e3;
+  padding-top: 10px;
+  padding-bottom: 0px;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }

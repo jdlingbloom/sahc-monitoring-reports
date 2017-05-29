@@ -37,13 +37,15 @@
     </script>
   </div>
 
+  <% photo_num = 1 %>
   <% unless(@report.new_record?) %>
     <%= f.simple_fields_for(:photos, :wrapper => :inline_form) do |pf| %>
       <% next unless(pf.object.persisted?) %>
-      <div class="row form-group">
+      <div class="row form-group photo-form">
         <div class="col-sm-4 text-center">
           <% if(pf.object.image? && pf.object.image.file.last_modified) %>
             <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
+            <div class="photo-num">Photo <%= photo_num %></div>
             <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
           <% else %>
             <em>Missing photo</em><br>
@@ -68,6 +70,7 @@
           <%= pf.input(:_destroy, :as => :boolean) %>
         </div>
       </div>
+      <% photo_num += 1 %>
     <% end %>
   <% end %>
 
