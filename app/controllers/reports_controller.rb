@@ -162,19 +162,21 @@ class ReportsController < ApplicationController
           last_row = rows - 1
           pdf.define_grid(:columns => 12, :rows => rows, :row_gutter => 0, :column_gutter => 10)
 
-          @report.extra_signatures.each_with_index do |extra_signature, row|
-            pdf.grid([row, 0], [row, 3]).bounding_box do
-              pdf.move_down footer_signature_height
-              pdf.stroke_horizontal_rule
-              pdf.move_down signature_margin
-              pdf.text extra_signature, :single_line => true, :overflow => :shrink_to_fit
-            end
+          if(@report.extra_signatures.present?)
+            @report.extra_signatures.each_with_index do |extra_signature, row|
+              pdf.grid([row, 0], [row, 3]).bounding_box do
+                pdf.move_down footer_signature_height
+                pdf.stroke_horizontal_rule
+                pdf.move_down signature_margin
+                pdf.text extra_signature, :single_line => true, :overflow => :shrink_to_fit
+              end
 
-            pdf.grid([row, 4], [row, 5]).bounding_box do
-              pdf.move_down footer_signature_height
-              pdf.stroke_horizontal_rule
-              pdf.move_down signature_margin
-              pdf.text "Date"
+              pdf.grid([row, 4], [row, 5]).bounding_box do
+                pdf.move_down footer_signature_height
+                pdf.stroke_horizontal_rule
+                pdf.move_down signature_margin
+                pdf.text "Date"
+              end
             end
           end
 
