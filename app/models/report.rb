@@ -91,6 +91,11 @@ class Report < ActiveRecord::Base
     super(extra)
   end
 
+  def set_default_empty_extra_signatures!
+    if(self.extra_signatures.blank?)
+      write_attribute(:extra_signatures, [""])
+    end
+  end
 
   private
 
