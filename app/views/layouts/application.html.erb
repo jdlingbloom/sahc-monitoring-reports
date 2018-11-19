@@ -2,21 +2,20 @@
 <html>
 <head>
   <title>SAHC Monitoring Reports</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
   <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_pack_tag "stylesheets", :media => "all" %>
+  <%= javascript_pack_tag "application" %>
 </head>
 <body>
   <div class="container">
     <% if(current_user) %>
       <div class="nav-header breadcrumb">
-        <div class="row">
-          <div class="col-sm-7">
-            <%= breadcrumbs(:style => :bootstrap) %>
-          </div>
-          <div class="col-sm-5 text-right">
-            <%= current_user.email %> &bull; <%= link_to("Logout", destroy_user_session_path, :method => :delete) %>
-          </div>
+        <div class="col-sm-7">
+          <%= breadcrumbs(:style => :bootstrap) %>
+        </div>
+        <div class="col-sm-5 text-right">
+          <%= current_user.email %> &bull; <%= link_to("Logout", destroy_user_session_path, :method => :delete) %>
         </div>
       </div>
     <% end %>

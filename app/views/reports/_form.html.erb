@@ -1,7 +1,7 @@
-<%= assets_manifest.find_sources("fine-uploader/simple-thumbnails.html").first.html_safe %><br>
+<%= File.read(Rails.root.join("node_modules/fine-uploader/fine-uploader/templates/simple-thumbnails.html")).html_safe %>
 
 <% @report.set_default_empty_extra_signatures! %>
-<%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_radio_and_checkboxes }) do |f| %>
+<%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_collection }) do |f| %>
   <%= render("/form_errors", :record => @report) %>
 
   <p><abbr title="required">*</abbr> Required field</p>
@@ -13,16 +13,16 @@
     <%= f.input :photographer_name %>
     <%= f.input :extra_signatures, :as => :array %>
     <% if(@report.photos.present?) %>
-      <div class="form-group" id="uploader_toggle">
-        <div class="col-sm-offset-4 col-sm-8">
-          <%= link_to('<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>Add additional new photos'.html_safe, "#") %>
+      <div class="row form-group" id="uploader_toggle">
+        <div class="col-sm-8 offset-sm-4">
+          <%= link_to('<i class="fas fa-plus"></i>Add additional new photos'.html_safe, "#") %>
         </div>
       </div>
     <% end %>
-    <div class="form-group" id="uploader_container" style="<%= "display: none" if(@report.photos.present?) %>">
-      <div class="col-sm-4 control-label">
+    <div class="row form-group" id="uploader_container" style="<%= "display: none" if(@report.photos.present?) %>">
+      <div class="col-sm-4 form-control-label">
         <label for="property"><abbr title="required">*</abbr> Photos</label>
-        <span class="help-block">Upload either JPEG files or KMZ files.</span>
+        <span class="form-text text-muted">Upload either JPEG files or KMZ files.</span>
       </div>
       <div class="col-sm-8">
         <div id="uploader"></div>
@@ -47,7 +47,7 @@
       <div class="row form-group photo-form">
         <div class="col-sm-4 text-center">
           <% if(pf.object.image? && pf.object.image.file.last_modified) %>
-            <%= image_tag(pf.object.image.thumbnail.url, :class => "img-responsive center-block") %>
+            <%= image_tag(pf.object.image.thumbnail.url, :class => "img-fluid center-block") %>
             <div class="photo-num">Photo <%= photo_num %></div>
             <%= link_to("Download original", "#{pf.object.image.url}?download=true") %><br>
           <% else %>
@@ -81,7 +81,7 @@
 
   <div class="row submit">
     <div class="col-sm-12 text-center">
-      <%= f.button :button, :class => "btn-lg btn-primary", "data-after-submit-text" => '<i class="glyphicon glyphicon-refresh glyphicon-spin"></i> Saving...'.html_safe %>
+      <%= f.button :button, :class => "btn-lg btn-primary", "data-after-submit-text" => '<i class="fas fa-sync-alt fa-spin"></i>Saving...'.html_safe %>
       <%= link_to("Cancel", :back, :class => "text-danger cancel") %>
     </div>
   </div>

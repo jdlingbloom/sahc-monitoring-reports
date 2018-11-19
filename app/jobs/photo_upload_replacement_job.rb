@@ -1,4 +1,4 @@
-class PhotoUploadReplacementJob
+class PhotoUploadReplacementJob < ApplicationJob
   def initialize(photo_id, upload_uuid)
     @photo_id = photo_id
     @upload_uuid = upload_uuid

@@ -1,0 +1,32 @@
+version: "2"
+services:
+  db:
+    image: mdillon/postgis:9.6-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+    ports:
+      - "9001:5432"
+  web:
+    build:
+      context: .
+    environment:
+      PORT: 9000
+      DB_HOSTNAME: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_NAME: sahc_development
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+      - rails_tmp_cache:/usr/local/rails_tmp_cache
+      - yarn_cache:/usr/local/node_modules
+    ports:
+      - "9000:9000"
+    depends_on:
+      - db
+volumes:
+  bundle_cache:
+  rails_tmp_cache:
+  yarn_cache:

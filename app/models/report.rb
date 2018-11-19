@@ -22,7 +22,7 @@
 #  index_reports_on_deleted_at  (deleted_at)
 #
 
-class Report < ActiveRecord::Base
+class Report < ApplicationRecord
   acts_as_paranoid
   stampable
 
@@ -42,7 +42,7 @@ class Report < ActiveRecord::Base
   attr_accessor :upload_uuids
 
   # Validations
-  schema_validations
+  # schema_validations
   validates :type, :presence => true, :inclusion => { :in => TYPES.keys }
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true

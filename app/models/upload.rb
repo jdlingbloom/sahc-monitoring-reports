@@ -19,7 +19,7 @@ require "rexml/document"
 #  index_uploads_on_uuid  (uuid) UNIQUE
 #
 
-class Upload < ActiveRecord::Base
+class Upload < ApplicationRecord
   stampable
 
   # File attachments
@@ -32,7 +32,7 @@ class Upload < ActiveRecord::Base
   #
   # Exclude file uploads from automatic schema validations, since length
   # validations validate the file size (not filename length) for file uploads.
-  schema_validations :except => [:file]
+  # schema_validations :except => [:file]
 
   def build_photos
     photos = []

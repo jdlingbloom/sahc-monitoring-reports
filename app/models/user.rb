@@ -27,14 +27,14 @@
 #  index_users_on_provider_and_uid  (provider,uid) UNIQUE
 #
 
-class User < ActiveRecord::Base
+class User < ApplicationRecord
   acts_as_paranoid
   model_stamper
 
   devise :omniauthable, :trackable
 
   # Validations
-  schema_validations
+  # schema_validations
 
   def self.from_omniauth(auth)
     user = User.find_by(:provider => auth.provider, :uid => auth.uid)
@@ -43,7 +43,7 @@ class User < ActiveRecord::Base
       info = auth.info
       email = info["email"]
       email_domain = email.split("@").last
-      if(email_domain == "appalachian.org" || ENV["ALLOWED_ACCOUNTS"].to_s.split(",").include?(email))
+      if(email_domain == "appalachian.org" || Rails.application.credentials.fetch(:allowed_accounts).include?(email))
         user = User.create!({
           :provider => auth.provider,
           :uid => auth.uid,

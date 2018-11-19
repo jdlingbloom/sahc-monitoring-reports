@@ -1,11 +1,12 @@
-@import "bootstrap-sprockets";
-@import "bootswatch/_variables";
-@import "bootstrap";
-@import "bootswatch/_bootswatch";
-@import "fine-uploader/fine-uploader-new";
-@import "datatables/dataTables.bootstrap";
-@import "_flower_spinner";
+$form-group-margin-bottom: 10px;
 
+@import "~bootswatch/dist/lumen/_variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootswatch/dist/lumen/_bootswatch";
+@import "~datatables.net-bs4/css/dataTables.bootstrap4";
+@import "~fine-uploader/fine-uploader/fine-uploader-new";
+@import "../stylesheets/_flower_spinner";
+@import "../stylesheets/simple_form-bootstrap/_simple_form-bootstrap";
 
 body {
   padding: 20px 0px;
@@ -23,16 +24,20 @@ h1 {
   margin-top: 0px;
 }
 
-.nav-header.breadcrumb .breadcrumb {
+.nav-header.breadcrumb ol.breadcrumb {
   padding: 0px;
   margin: 0px;
   background-color: transparent;
   border-width: 0px;
+
+  li {
+    @extend .breadcrumb-item;
+  }
 }
 
 .qq-upload-button {
-  background-color: $btn-primary-bg;
-  border-color: $btn-primary-border;
+  //background-color: $btn-primary-bg;
+  //border-color: $btn-primary-border;
 }
 
 .submit {
@@ -47,12 +52,18 @@ table .actions {
   text-align: right;
 }
 
-table .actions a {
-  margin-left: 1em;
+table .actions {
+  a {
+    margin-left: 1.5rem;
+  }
+
+  a:first-child {
+    margin-left: 0px;
+  }
 }
 
-a span.glyphicon {
-  margin-right: 3px;
+a .svg-inline--fa:first-child {
+  margin-right: .3rem;
 }
 
 abbr[title=required] {
@@ -78,18 +89,18 @@ abbr[title=required] {
   display: inline-block;
   width: 191px;
   height: 46px;
-  background-image: asset-data-url('btn_google_signin_dark_normal_web@2x.png');
+  background-image: url('../images/btn_google_signin_dark_normal_web@2x.png');
   background-size: 191px 46px;
   background-repeat: no-repeat;
 }
 
 .google-signin-btn:hover,
 .google-signin-btn:focus {
-  background-image: asset-data-url('btn_google_signin_dark_focus_web@2x.png');
+  background-image: url('../images/btn_google_signin_dark_focus_web@2x.png');
 }
 
 .google-signin-btn:active {
-  background-image: asset-data-url('btn_google_signin_dark_pressed_web@2x.png');
+  background-image: url('../images/btn_google_signin_dark_pressed_web@2x.png');
 }
 
 .dataTables_wrapper {
@@ -98,22 +109,23 @@ abbr[title=required] {
 
 .large-height {
   display: inline-block;
-  margin-top: $padding-large-vertical;
+  //margin-top: $padding-large-vertical;
 }
 
 .details {
   .row:after {
     content: "";
+    width: 100%;
     display: block;
     border-bottom: 1px solid #e3e3e3;
     margin: 6px 15px;
-    @media (min-width: $screen-sm-min) {
+    @include media-breakpoint-up(sm) {
       margin: 0px 15px;
     }
   }
 
   .row > div {
-    @media (min-width: $screen-sm-min) {
+    @include media-breakpoint-up(sm) {
       padding-top: 6px;
       padding-bottom: 6px;
     }
@@ -122,7 +134,7 @@ abbr[title=required] {
   .row .col-sm-4 {
     font-weight: bold;
 
-    @media (min-width: $screen-sm-min) {
+    @include media-breakpoint-up(sm) {
       text-align: right;
     }
   }
@@ -139,12 +151,12 @@ abbr[title=required] {
 }
 
 .button-actions {
-  @media (min-width: $screen-md-min) {
+  @include media-breakpoint-up(md) {
     text-align: right;
   }
 
   a {
-    margin-left: 1em;
+    margin-left: 1.5rem;
   }
 
   a:first-child {
@@ -154,33 +166,6 @@ abbr[title=required] {
 
 .row.footer {
   margin-top: 2em;
-}
-
-.glyphicon-spin {
-  -webkit-animation: glyphicon-spin 2s infinite linear;
-  animation: glyphicon-spin 2s infinite linear;
-}
-
-@-webkit-keyframes glyphicon-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
-}
-
-@keyframes glyphicon-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
 }
 
 .progress-notice {
@@ -200,15 +185,18 @@ abbr[title=required] {
   }
 }
 
-.edit_report .photo-form,
-.new_report .photo-form,
-.edit_report .form-horizontal > .form-group,
-.new_report .form-horizontal > .form-group {
-  border-top: 1px solid #e3e3e3;
-  padding-top: 10px;
-  padding-bottom: 0px;
-  margin-top: 10px;
-  margin-bottom: 10px;
+.edit_report .photo-form:before,
+.new_report .photo-form:before,
+.edit_report .form-horizontal > .form-group:before,
+.new_report .form-horizontal > .form-group:before {
+  content: "";
+  width: 100%;
+  display: block;
+  border-bottom: 1px solid #e3e3e3;
+  margin: 0px ($grid-gutter-width / 2) $form-group-margin-bottom ($grid-gutter-width / 2);
+  @include media-breakpoint-up(sm) {
+    //margin: 0px 15px;
+  }
 }
 
 .form-group.array .form-control {
@@ -217,4 +205,11 @@ abbr[title=required] {
 
 .form-group.array .form-control:first-child {
   margin-top: 0px;
+}
+
+.form-horizontal .col-form-label,
+.form-horizontal .form-control-label {
+  @include media-breakpoint-up(sm) {
+    text-align: right;
+  }
 }

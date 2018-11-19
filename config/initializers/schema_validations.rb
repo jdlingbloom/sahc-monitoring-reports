@@ -1,3 +1,4 @@
+=begin
 SchemaValidations.setup do |config|
   # Don't enable schema_validations globally, so it doesn't impact models from
   # other gems.
@@ -8,3 +9,4 @@ SchemaValidations.setup do |config|
   # error.
   config.except_type = [:unique]
 end
+=end

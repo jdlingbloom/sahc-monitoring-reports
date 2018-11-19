@@ -29,7 +29,7 @@
 #  fk_rails_...  (report_id => reports.id)
 #
 
-class Photo < ActiveRecord::Base
+class Photo < ApplicationRecord
   # https://github.com/DaAwesomeP/arduino-cardinal/wiki/Types/fb25844994f1fb2b0eb915c73766827459388cfb#type-2
   COMPASS_HEADINGS = [
     "N",
@@ -73,7 +73,7 @@ class Photo < ActiveRecord::Base
   #
   # Exclude file uploads from automatic schema validations, since length
   # validations validate the file size (not filename length) for file uploads.
-  schema_validations :except => [:image]
+  # schema_validations :except => [:image]
 
   def upload_uuid=(uuid)
     attribute_will_change!(:upload_uuid) if(@upload_uuid != uuid)

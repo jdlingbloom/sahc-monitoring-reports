@@ -1,4 +1,8 @@
-function setupUploader(name, uuidInputName, overrides) {
+import $ from 'jquery';
+import qq from 'fine-uploader'
+import Rails from 'rails-ujs';
+
+window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
   var $container = $('#' + name + '_container');
   var $toggle = $('#' + name + '_toggle');
   var $uuids = $('#' + name + '_uuids');
@@ -17,14 +21,14 @@ function setupUploader(name, uuidInputName, overrides) {
       uuidName: 'uuid',
       inputName: 'file',
       customHeaders: {
-        'X-CSRF-Token': $.rails.csrfToken(),
+        'X-CSRF-Token': Rails.csrfToken(),
       },
     },
     deleteFile: {
       enabled: true,
       endpoint: '/uploads',
       customHeaders: {
-        'X-CSRF-Token': $.rails.csrfToken(),
+        'X-CSRF-Token': Rails.csrfToken(),
       },
     },
     validation: {

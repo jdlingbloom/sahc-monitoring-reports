@@ -1,4 +1,4 @@
-class ReportUploadsJob
+class ReportUploadsJob < ApplicationJob
   def initialize(report_id, upload_uuids)
     @report_id = report_id
     @upload_uuids = upload_uuids
