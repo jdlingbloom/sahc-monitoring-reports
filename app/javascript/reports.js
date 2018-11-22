@@ -1,3 +1,4 @@
+import 'jquery.dirtyforms';
 import $ from 'jquery';
 import qq from 'fine-uploader'
 import Rails from 'rails-ujs';
@@ -83,3 +84,29 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
 
   new qq.FineUploader(options);
 }
+
+$(document).ready(function() {
+  $('form.report-form').dirtyForms();
+
+  $(document).on('submit', 'form.report-form', function() {
+    var $form = $(this);
+    $form.find(':submit').each(function() {
+      $button = $(this);
+      label = $button.data('after-submit-text');
+      if(label) {
+        $button.html(label).prop('disabled', true);
+      }
+    });
+  });
+
+  var $arrayContainer = $('.report-form .form-group.array .array-inputs-container')
+  function appendArrayElement() {
+    if($arrayContainer.find('input:last-child').val() !== '') {
+      var $newElement = $('.form-group.array input:last-child').clone();
+      $newElement.val('');
+      $arrayContainer.append($newElement);
+    }
+  }
+  appendArrayElement();
+  $arrayContainer.on('keyup', 'input', appendArrayElement);
+});

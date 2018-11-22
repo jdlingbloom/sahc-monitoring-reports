@@ -1,7 +1,7 @@
 <%= File.read(Rails.root.join("node_modules/fine-uploader/fine-uploader/templates/simple-thumbnails.html")).html_safe %>
 
 <% @report.set_default_empty_extra_signatures! %>
-<%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_collection }) do |f| %>
+<%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_collection }, :html => { :class => "report-form" }) do |f| %>
   <%= render("/form_errors", :record => @report) %>
 
   <p><abbr title="required">*</abbr> Required field</p>
@@ -86,30 +86,3 @@
     </div>
   </div>
 <% end %>
-
-<script>
-  $('form').dirtyForms();
-
-  $(document).on('submit', 'form', function() {
-    var $form = $(this);
-    $form.find(':submit').each(function() {
-      $button = $(this);
-      label = $button.data('after-submit-text');
-      if(label) {
-        $button.html(label).prop('disabled', true);
-      }
-    });
-  });
-
-
-  var $arrayContainer = $('.form-group.array .control-input')
-  function appendArrayElement() {
-    if($arrayContainer.find('input:last-child').val() !== '') {
-      var $newElement = $('.form-group.array input:last-child').clone();
-      $newElement.val('');
-      $arrayContainer.append($newElement);
-    }
-  }
-  appendArrayElement();
-  $arrayContainer.on('keyup', 'input', appendArrayElement);
-</script>

@@ -185,10 +185,8 @@ abbr[title=required] {
   }
 }
 
-.edit_report .photo-form:before,
-.new_report .photo-form:before,
-.edit_report .form-horizontal > .form-group:before,
-.new_report .form-horizontal > .form-group:before {
+.report-form .photo-form:before,
+.report-form .form-horizontal > .form-group:before {
   content: "";
   width: 100%;
   display: block;

@@ -7,4 +7,19 @@ environment.loaders.get('sass').use.splice(-1, 0, {
   }
 });
 
+environment.config.merge({
+  resolve: {
+    alias: {
+      'jquery.dirtyforms': 'jquery.dirtyforms/jquery.dirtyforms',
+    },
+  },
+  externals: {
+    // Treat window and document as an external to fix jquery.dirtyforms
+    // import:
+    // https://github.com/snikch/jquery.dirtyforms/issues/82#issuecomment-376834484
+    window: 'window',
+    document: 'document',
+  },
+});
+
 module.exports = environment
