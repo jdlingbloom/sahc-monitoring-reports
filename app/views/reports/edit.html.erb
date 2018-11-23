@@ -9,22 +9,7 @@
     </div>
   </div>
   <script>
-    function poll() {
-      $.ajax({
-        url: '/reports/<%= @report.id %>.json',
-      }).done(function(data) {
-        if(data && data.upload_progress !== 'pending') {
-          var params = '';
-          if(data.upload_progress === null) {
-            params = '?new_uploads=true';
-          }
-          window.location.href = window.location.href + params;
-        }
-      }).always(function() {
-        setTimeout(poll, 500);
-      });
-    }
-    poll();
+    pollReport(<%= @report.id.to_json.html_safe %>);
   </script>
 <% else %>
   <h1>Edit Monitoring Report</h1>

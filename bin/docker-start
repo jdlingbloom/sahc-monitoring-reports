@@ -33,4 +33,4 @@ if [[ -z "${RAILS_ENV:-}" || "${RAILS_ENV:-}" == "development" ]]; then
   bundle exec rake db:migrate db:seed
 fi
 
-bundle exec foreman start
+bundle exec puma -C config/puma.rb

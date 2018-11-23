@@ -57,4 +57,9 @@ Rails.application.configure do
     logger.formatter = config.log_formatter
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
+
+  if ENV["RAILS_ENABLE_DELAYED_JOB"].present?
+    # Use a real queuing backend for Active Job (and separate queues per environment)
+    config.active_job.queue_adapter = :delayed_job
+  end
 end

@@ -1,3 +1,4 @@
+require "exifr/jpeg"
 require "rexml/document"
 
 # == Schema Information

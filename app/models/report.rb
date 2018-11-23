@@ -35,7 +35,7 @@ class Report < ApplicationRecord
   self.inheritance_column = :_type_disabled
 
   # Associations
-  has_many :photos, -> { order(:taken_at, :image, :id) }, :dependent => :destroy
+  has_many :photos, -> { order(:taken_at, :image, :id) }, :dependent => :destroy, :inverse_of => :report
   accepts_nested_attributes_for :photos, :allow_destroy => true
 
   # Virtual attributes
@@ -47,6 +47,7 @@ class Report < ApplicationRecord
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true
   validates :photographer_name, :presence => true
+  validates :photos, :associated => true
   validate :validate_photos_presence
 
   # Callbacks
@@ -108,7 +109,7 @@ class Report < ApplicationRecord
   def handle_uploads
     if(self.upload_uuids.present?)
       self.update_column(:upload_progress, "pending")
-      Delayed::Job.enqueue(ReportUploadsJob.new(self.id, self.upload_uuids.uniq))
+      ReportUploadsJob.perform_later(self.id, self.upload_uuids.uniq, ActiveRecord::Userstamp.config.default_stamper_class.stamper.id)
     end
   end
 end

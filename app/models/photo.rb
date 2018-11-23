@@ -57,7 +57,7 @@ class Photo < ApplicationRecord
   stampable
 
   # Associations
-  belongs_to :report
+  belongs_to :report, :inverse_of => :photos
 
   # Virtual attributes
   attr_accessor :upload_uuid
@@ -76,7 +76,9 @@ class Photo < ApplicationRecord
   # schema_validations :except => [:image]
 
   def upload_uuid=(uuid)
-    attribute_will_change!(:upload_uuid) if(@upload_uuid != uuid)
+    if(@upload_uuid != uuid)
+      attribute_will_change!(:updated_at)
+    end
     @upload_uuid = uuid
   end
 
@@ -123,7 +125,7 @@ class Photo < ApplicationRecord
   def handle_upload_replacement
     if(self.upload_uuid.present?)
       self.report.update_column(:upload_progress, "pending")
-      Delayed::Job.enqueue(PhotoUploadReplacementJob.new(self.id, self.upload_uuid))
+      PhotoUploadReplacementJob.perform_later(self.id, self.upload_uuid, ActiveRecord::Userstamp.config.default_stamper_class.stamper.id)
     end
   end
 

@@ -26,6 +26,23 @@ services:
       - "9000:9000"
     depends_on:
       - db
+  delayed_job:
+    build:
+      context: .
+    command: bundle exec rake jobs:work
+    environment:
+      DB_HOSTNAME: db
+      DB_PORT: 5432
+      DB_USERNAME: postgres
+      DB_PASSWORD: password
+      DB_NAME: sahc_development
+    volumes:
+      - .:/app
+      - bundle_cache:/usr/local/bundle
+      - rails_tmp_cache:/usr/local/rails_tmp_cache
+      - yarn_cache:/usr/local/node_modules
+    depends_on:
+      - db
 volumes:
   bundle_cache:
   rails_tmp_cache:

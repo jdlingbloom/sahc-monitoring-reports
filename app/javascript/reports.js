@@ -4,9 +4,9 @@ import qq from 'fine-uploader'
 import Rails from 'rails-ujs';
 
 window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
-  var $container = $('#' + name + '_container');
-  var $toggle = $('#' + name + '_toggle');
-  var $uuids = $('#' + name + '_uuids');
+  const $container = $('#' + name + '_container');
+  const $toggle = $('#' + name + '_toggle');
+  const $uuids = $('#' + name + '_uuids');
 
   $toggle.find('a').click(function(event) {
     $container.show();
@@ -14,7 +14,7 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
     event.preventDefault();
   });
 
-  var options = {
+  const options = {
     element: document.getElementById(name),
     template: 'qq-simple-thumbnails-template',
     request: {
@@ -37,10 +37,10 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
     },
     callbacks: {
       onStatusChange: function() {
-        var uploads = this.getUploads();
-        var uuids = [];
-        for(var i = 0; i < uploads.length; i++) {
-          var upload = uploads[i];
+        const uploads = this.getUploads();
+        const uuids = [];
+        for(let i = 0; i < uploads.length; i++) {
+          const upload = uploads[i];
           if(upload.status === qq.status.UPLOAD_SUCCESSFUL) {
             uuids.push(upload.uuid);
           } else if(upload.status !== qq.status.CANCELED && upload.status !== qq.status.REJECTED && upload.status !== qq.status.DELETED) {
@@ -51,7 +51,7 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
         }
 
         $uuids.empty();
-        for(var i = 0; i < uuids.length; i++) {
+        for(let i = 0; i < uuids.length; i++) {
           $('<input>').attr({
             type: 'hidden',
             name: uuidInputName,
@@ -65,7 +65,7 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
     },
   };
 
-  var existingUuids = $uuids.find('input').map(function() { return $(this).val(); }).get();
+  const existingUuids = $uuids.find('input').map(function() { return $(this).val(); }).get();
   if(existingUuids.length > 0) {
     $container.show();
     $.extend(options, {
@@ -85,24 +85,44 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
   new qq.FineUploader(options);
 }
 
+window.pollReport = function(reportId) {
+  let redirected = false;
+  $.ajax({
+    url: `/reports/${reportId}.json`,
+  }).done(function(data) {
+    if(data && data.upload_progress !== 'pending') {
+      let params = '';
+      if(data.upload_progress === null) {
+        params = '?new_uploads=true';
+      }
+      redirected = true;
+      window.location.href = window.location.href + params;
+    }
+  }).always(function() {
+    if(!redirected) {
+      setTimeout(window.pollReport, 500, reportId);
+    }
+  });
+}
+
 $(document).ready(function() {
   $('form.report-form').dirtyForms();
 
   $(document).on('submit', 'form.report-form', function() {
-    var $form = $(this);
+    const $form = $(this);
     $form.find(':submit').each(function() {
-      $button = $(this);
-      label = $button.data('after-submit-text');
+      const $button = $(this);
+      const label = $button.data('after-submit-text');
       if(label) {
         $button.html(label).prop('disabled', true);
       }
     });
   });
 
-  var $arrayContainer = $('.report-form .form-group.array .array-inputs-container')
+  const $arrayContainer = $('.report-form .form-group.array .array-inputs-container')
   function appendArrayElement() {
     if($arrayContainer.find('input:last-child').val() !== '') {
-      var $newElement = $('.form-group.array input:last-child').clone();
+      const $newElement = $('.form-group.array input:last-child').clone();
       $newElement.val('');
       $arrayContainer.append($newElement);
     }
