@@ -2,19 +2,20 @@
 #
 # Table name: reports
 #
-#  id                :integer          not null, primary key
-#  property_name     :string(255)
-#  monitoring_year   :integer
-#  photographer_name :string(255)
-#  created_at        :datetime         not null
-#  updated_at        :datetime         not null
-#  creator_id        :integer
-#  updater_id        :integer
-#  upload_progress   :string(20)
-#  pdf_progress      :string(20)
-#  type              :enum             default("monitoring"), not null
-#  extra_signatures  :string(255)      is an Array
-#  pdf               :string
+#  id                 :integer          not null, primary key
+#  property_name      :string(255)
+#  monitoring_year    :integer
+#  photographer_name  :string(255)
+#  created_at         :datetime         not null
+#  updated_at         :datetime         not null
+#  creator_id         :integer
+#  updater_id         :integer
+#  upload_progress    :string(20)
+#  pdf_progress       :string(20)
+#  type               :enum             default("monitoring"), not null
+#  extra_signatures   :string(255)      is an Array
+#  pdf                :string
+#  photo_starting_num :integer          default(1), not null
 #
 
 class Report < ApplicationRecord
@@ -44,6 +45,7 @@ class Report < ApplicationRecord
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true
   validates :photographer_name, :presence => true
+  validates :photo_starting_num, :presence => true, :numericality => { :only_integer => true }
   validates :photos, :associated => true
   validate :validate_photos_presence
 
@@ -68,10 +70,9 @@ class Report < ApplicationRecord
     dates = {}
     self.photos.each_with_index do |photo, index|
       if(photo.taken_at)
-        photo_num = index + 1
         date = photo.taken_at.to_date
         dates[date] ||= []
-        dates[date] << photo_num
+        dates[date] << self.photo_starting_num + index
       end
     end
 
@@ -99,6 +100,9 @@ class Report < ApplicationRecord
   def queue_pdf_job
     self.update_column(:pdf_progress, "pending")
     ReportPdfJob.perform_later(self.id)
+  rescue => e
+    self.update_column(:pdf_progress, "failure")
+    raise e
   end
 
   def generate_pdf
@@ -124,7 +128,7 @@ class Report < ApplicationRecord
       pdf.font_size 10
       pdf.line_width = 0.5
 
-      photo_num = 1
+      photo_index = 0
       self.photos.in_groups_of(6, false).each_with_index do |page_photos, page_index|
         pdf.start_new_page if(page_index > 0)
 
@@ -181,10 +185,10 @@ class Report < ApplicationRecord
                 pdf.text "#{I18n.localize(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
               end
               pdf.move_down 3
-              pdf.text_box "Photo #{photo_num}: #{photo.caption_cleaned}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
+              pdf.text_box "Photo #{self.photo_starting_num + photo_index}: #{photo.caption_cleaned}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
             end
 
-            photo_num += 1
+            photo_index += 1
           end
         end
       end
@@ -263,7 +267,10 @@ class Report < ApplicationRecord
   def handle_uploads
     if(self.upload_uuids.present?)
       self.update_column(:upload_progress, "pending")
-      ReportUploadsJob.perform_later(self.id, self.upload_uuids.uniq)
+      ReportUploadsJob.perform_later(self.id, self.upload_uuids.uniq, ActiveRecord::Userstamp.config.default_stamper_class.stamper.id)
     end
+  rescue => e
+    self.update_column(:upload_progress, "failure")
+    raise e
   end
 end

@@ -76,6 +76,7 @@ class ReportsController < ApplicationController
       :property_name,
       :monitoring_year,
       :photographer_name,
+      :photo_starting_num,
       { :extra_signatures => [] },
       { :upload_uuids => [] },
       {

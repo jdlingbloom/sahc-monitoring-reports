@@ -38,6 +38,10 @@
     <div class="col-sm-8"><%= @report.photographer_name %></div>
   </div>
   <div class="row">
+    <div class="col-sm-4">Initial Photo Number:</div>
+    <div class="col-sm-8"><%= @report.photo_starting_num %></div>
+  </div>
+  <div class="row">
     <div class="col-sm-4">Additional Signatures to Require:</div>
     <div class="col-sm-8"><%= safe_join(@report.extra_signatures, "<br>".html_safe) if(@report.extra_signatures.present?) %></div>
   </div>
@@ -50,13 +54,12 @@
     <div class="col-sm-4">Last Updated:</div>
     <div class="col-sm-8"><%= l(@report.updated_at, :format => :long_tz) %> by <%= @report.updater.email %></div>
   </div>
-  <% photo_num = 1 %>
-  <% @report.photos.each do |photo| %>
+  <% @report.photos.each_with_index do |photo, index| %>
     <div class="row">
       <div class="col-sm-4 photo">
         <% if(photo.image? && photo.image.file.last_modified) %>
           <%= image_tag(photo.image.thumbnail.url, :class => "img-fluid center-block") %>
-          <div class="photo-num">Photo <%= photo_num %></div>
+          <div class="photo-num">Photo <%= @report.photo_starting_num + index %></div>
           <%= link_to("Download original", "#{photo.image.url}?download=true") %><br>
         <% else %>
           <em>Missing photo</em>
@@ -70,7 +73,6 @@
         <%= render("photo_metadata", :photo => photo) %>
       </div>
     </div>
-    <% photo_num += 1 %>
   <% end %>
   <% if(@report.upload_progress == "pending") %>
     <div class="row">
