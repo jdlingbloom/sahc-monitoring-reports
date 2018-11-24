@@ -139,10 +139,8 @@ CREATE TABLE public.photos (
     image_direction numeric(10,7),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone,
     creator_id integer,
-    updater_id integer,
-    deleter_id integer
+    updater_id integer
 );
 
 
@@ -176,10 +174,8 @@ CREATE TABLE public.reports (
     photographer_name character varying(255),
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    deleted_at timestamp without time zone,
     creator_id integer,
     updater_id integer,
-    deleter_id integer,
     upload_progress character varying(20),
     pdf_progress character varying(20),
     type public.report_type DEFAULT 'monitoring'::public.report_type NOT NULL,
@@ -410,20 +406,6 @@ CREATE UNIQUE INDEX index_carrierwave_files_on_path ON public.carrierwave_files 
 
 
 --
--- Name: index_photos_on_deleted_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_photos_on_deleted_at ON public.photos USING btree (deleted_at);
-
-
---
--- Name: index_reports_on_deleted_at; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_reports_on_deleted_at ON public.reports USING btree (deleted_at);
-
-
---
 -- Name: index_uploads_on_uuid; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -479,6 +461,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170528233404'),
 ('20170529135012'),
 ('20170529165420'),
-('20181123221547');
+('20181123221547'),
+('20181124014134');
 
 

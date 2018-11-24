@@ -8,23 +8,16 @@
 #  photographer_name :string(255)
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
-#  deleted_at        :datetime
 #  creator_id        :integer
 #  updater_id        :integer
-#  deleter_id        :integer
 #  upload_progress   :string(20)
 #  pdf_progress      :string(20)
 #  type              :enum             default("monitoring"), not null
 #  extra_signatures  :string(255)      is an Array
 #  pdf               :string
 #
-# Indexes
-#
-#  index_reports_on_deleted_at  (deleted_at)
-#
 
 class Report < ApplicationRecord
-  acts_as_paranoid
   stampable
 
   TYPES = {

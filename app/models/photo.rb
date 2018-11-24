@@ -15,14 +15,8 @@
 #  image_direction    :decimal(10, 7)
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
-#  deleted_at         :datetime
 #  creator_id         :integer
 #  updater_id         :integer
-#  deleter_id         :integer
-#
-# Indexes
-#
-#  index_photos_on_deleted_at  (deleted_at)
 #
 # Foreign Keys
 #
@@ -53,7 +47,6 @@ class Photo < ApplicationRecord
   COMPASS_HEADING_BUFFER = COMPASS_HEADING_SIZE / 2.0
   COMPASS_HEADING_NORTH_START = 360.0 - COMPASS_HEADING_BUFFER
 
-  acts_as_paranoid
   stampable
 
   # Associations
