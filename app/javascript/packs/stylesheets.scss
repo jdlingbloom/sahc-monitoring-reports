@@ -37,8 +37,8 @@ h1 {
 }
 
 .qq-upload-button {
-  //background-color: $btn-primary-bg;
-  //border-color: $btn-primary-border;
+  background-color: $primary;
+  border-color: darken($primary, 5%);
 }
 
 .submit {
@@ -163,11 +163,6 @@ abbr[title=required] {
   margin-top: 1.5em;
 }
 
-.large-height {
-  display: inline-block;
-  //margin-top: $padding-large-vertical;
-}
-
 .details {
   .row:after {
     content: "";
@@ -255,9 +250,9 @@ abbr[title=required] {
   width: 100%;
   display: block;
   border-bottom: 1px solid #e3e3e3;
-  margin: 0px ($grid-gutter-width / 2) $form-group-margin-bottom ($grid-gutter-width / 2);
+  margin: 0px ($grid-gutter-width / 2) 0px ($grid-gutter-width / 2);
   @include media-breakpoint-up(sm) {
-    //margin: 0px 15px;
+    margin-bottom: $form-group-margin-bottom;
   }
 }
 
