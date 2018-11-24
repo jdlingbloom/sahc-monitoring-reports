@@ -225,7 +225,7 @@ class Report < ApplicationRecord
 
           pdf.grid([last_row, property_name_column], [last_row, 10]).bounding_box do
             pdf.move_down property_name_padding
-            pdf.text "<b>#{self.property_name.upcase}</b> PROPERTY 2016 #{self.type.upcase} PHOTOS", :align => :center, :inline_format => true, :single_line => true, :overflow => :shrink_to_fit
+            pdf.text "<b>#{self.property_name.upcase}</b> PROPERTY #{self.monitoring_year} #{self.type.upcase} PHOTOS", :align => :center, :inline_format => true, :single_line => true, :overflow => :shrink_to_fit
           end
 
           pdf.grid([last_row, 11], [last_row, 11]).bounding_box do
