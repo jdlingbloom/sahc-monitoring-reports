@@ -1,5 +1,15 @@
 <% breadcrumb(:report, @report) %>
 
+<% if params[:download_redirect] == "true" %>
+  <div class="alert alert-info progress-notice" role="alert">
+    <p>The PDF report has successfully been generated.</p>
+    <p>If your download does not begin shortly, click the download button again.</p>
+  </div>
+  <script>
+    downloadReport(<%= download_report_path(@report).to_json.html_safe %>);
+  </script>
+<% end %>
+
 <div class="row">
   <div class="col-md-6">
     <h1><%= @report.display_name %></h1>

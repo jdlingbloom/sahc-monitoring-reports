@@ -36,9 +36,6 @@ gem "carrierwave", "~> 1.2.3"
 gem "carrierwave-postgresql-table", "~> 1.1.0"
 gem "mini_magick", "~> 4.9.2"
 
-# Caching for refile's uploads
-gem "rack-cache", "~> 1.8.0"
-
 # Soft deletes
 gem "paranoia", "~> 2.4.1"
 

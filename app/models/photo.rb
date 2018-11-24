@@ -57,7 +57,7 @@ class Photo < ApplicationRecord
   stampable
 
   # Associations
-  belongs_to :report, :inverse_of => :photos
+  belongs_to :report, :inverse_of => :photos, :touch => true
 
   # Virtual attributes
   attr_accessor :upload_uuid

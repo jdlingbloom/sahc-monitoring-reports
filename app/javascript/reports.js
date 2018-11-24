@@ -85,7 +85,7 @@ window.setupUploader = function setupUploader(name, uuidInputName, overrides) {
   new qq.FineUploader(options);
 }
 
-window.pollReport = function(reportId) {
+window.pollReportUploads = function(reportId) {
   let redirected = false;
   $.ajax({
     url: `/reports/${reportId}.json`,
@@ -96,11 +96,46 @@ window.pollReport = function(reportId) {
         params = '?new_uploads=true';
       }
       redirected = true;
-      window.location.href = window.location.href + params;
+      window.location.href = `/reports/${reportId}/edit${params}`;
     }
   }).always(function() {
     if(!redirected) {
-      setTimeout(window.pollReport, 500, reportId);
+      setTimeout(window.pollReportUploads, 500, reportId);
+    }
+  });
+}
+
+window.pollReportPdf = function(reportId) {
+  let redirected = false;
+  $.ajax({
+    url: `/reports/${reportId}.json`,
+  }).done(function(data) {
+    if(data && data.pdf_progress !== 'pending') {
+      let params = '';
+      if(data.pdf_progress === null) {
+        params = '?download_redirect=true';
+      }
+      redirected = true;
+      window.location.href = `/reports/${reportId}${params}`;
+    }
+  }).always(function() {
+    if(!redirected) {
+      setTimeout(window.pollReportPdf, 500, reportId);
+    }
+  });
+}
+
+window.downloadReport = function(path) {
+  $(window).on('load', function() {
+    window.location.href = path;
+
+    // Remove the '?download_redirect=true' params from the current URL (but
+    // without triggering a real page reload) so that if the user reloads this
+    // page, they don't trigger another download.
+    if(window.history && window.history.replaceState) {
+      setTimeout(function() {
+        window.history.replaceState({}, '', window.location.pathname);
+      }, 0);
     }
   });
 }

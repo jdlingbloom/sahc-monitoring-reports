@@ -171,7 +171,8 @@ abbr[title=required] {
 
 .progress-notice {
   max-width: 500px;
-  margin: 0px auto;
+  margin-left: auto;
+  margin-right: auto;
   text-align: center;
 
   h3 {
@@ -183,6 +184,10 @@ abbr[title=required] {
     text-align: center;
     height: 100px;
     padding-top: 50px;
+  }
+
+  p:last-child {
+    margin-bottom: 0px;
   }
 }
 

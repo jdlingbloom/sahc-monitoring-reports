@@ -183,7 +183,8 @@ CREATE TABLE public.reports (
     upload_progress character varying(20),
     pdf_progress character varying(20),
     type public.report_type DEFAULT 'monitoring'::public.report_type NOT NULL,
-    extra_signatures character varying(255)[]
+    extra_signatures character varying(255)[],
+    pdf character varying
 );
 
 
@@ -477,6 +478,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20170528233338'),
 ('20170528233404'),
 ('20170529135012'),
-('20170529165420');
+('20170529165420'),
+('20181123221547');
 
 

@@ -1,0 +1,21 @@
+<% breadcrumb(:report, @report) %>
+
+<% if(@report.pdf_progress == "pending") %>
+  <div class="alert alert-info progress-notice" role="alert">
+    <h3>Generating PDF report...</h3>
+    <p>This may take a little while depending on how large the report is.<br>The page will automatically refresh once the PDF has been created.</p>
+    <div class="loader-container">
+      <div class="flower-loader"></div>
+    </div>
+  </div>
+  <script>
+    pollReportPdf(<%= @report.id.to_json.html_safe %>);
+  </script>
+<% else %>
+  <h1><%= @report.display_name %></h1>
+
+  <div class="alert alert-danger progress-notice" role="alert">
+    <h3>Error Generating PDF Report</h3>
+    <p>An unexpected error occurred while generating the PDF report.</p>
+  </div>
+<% end %>
