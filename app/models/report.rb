@@ -40,7 +40,6 @@ class Report < ApplicationRecord
   mount_uploader :pdf, PdfUploader
 
   # Validations
-  # schema_validations
   validates :type, :presence => true, :inclusion => { :in => TYPES.keys }
   validates :property_name, :presence => true
   validates :monitoring_year, :presence => true

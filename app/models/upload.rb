@@ -30,10 +30,10 @@ class Upload < ApplicationRecord
   before_validation :set_upload_metadata
 
   # Validations
-  #
-  # Exclude file uploads from automatic schema validations, since length
-  # validations validate the file size (not filename length) for file uploads.
-  # schema_validations :except => [:file]
+  validates :uuid, :presence => true
+  validates :file, :presence => true
+  validates :file_size, :presence => true
+  validates :file_content_type, :presence => true
 
   def build_photos
     photos = []

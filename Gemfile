@@ -48,10 +48,6 @@ gem "activerecord-userstamp", "~> 3.0.5", :git => "https://github.com/lowjoel/ac
 # PDF generation
 gem "prawn", "~> 2.2.2"
 
-# Automatic model validations based on database constraints
-#gem "schema_validations", "~> 2.3.0"
-#gem "schema_plus_columns", "~> 0.3.0"
-
 # Form layouts
 gem "simple_form", "~> 4.0.1"
 

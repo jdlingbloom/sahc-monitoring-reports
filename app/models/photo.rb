@@ -63,10 +63,10 @@ class Photo < ApplicationRecord
   after_commit :handle_upload_replacement
 
   # Validations
-  #
-  # Exclude file uploads from automatic schema validations, since length
-  # validations validate the file size (not filename length) for file uploads.
-  # schema_validations :except => [:image]
+  validates :report, :presence => true
+  validates :image, :presence => true
+  validates :image_size, :presence => true
+  validates :image_content_type, :presence => true
 
   def upload_uuid=(uuid)
     if(@upload_uuid != uuid)

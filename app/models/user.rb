@@ -34,7 +34,8 @@ class User < ApplicationRecord
   devise :omniauthable, :trackable
 
   # Validations
-  # schema_validations
+  validates :provider, :presence => true
+  validates :uid, :presence => true
 
   def self.from_omniauth(auth)
     user = User.find_by(:provider => auth.provider, :uid => auth.uid)
