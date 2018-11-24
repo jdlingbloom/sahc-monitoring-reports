@@ -1,4 +1,8 @@
 const { environment } = require('@rails/webpacker')
+const url = require('./loaders/url');
+
+environment.loaders.prepend('url', url);
+environment.loaders.get('file').test = /\.(eot|otf|ttf|woff|woff2)$/i
 
 environment.loaders.get('sass').use.splice(-1, 0, {
   loader: 'resolve-url-loader',

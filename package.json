@@ -13,7 +13,8 @@
     "jquery": "^3.3.1",
     "jquery.dirtyforms": "^2.0.0",
     "rails-ujs": "^5.2.1",
-    "resolve-url-loader": "^3.0.0"
+    "resolve-url-loader": "^3.0.0",
+    "url-loader": "^1.1.2"
   },
   "devDependencies": {
     "webpack-dev-server": "2.11.2"
