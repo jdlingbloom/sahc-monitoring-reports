@@ -58,6 +58,4 @@ test:
 #
 production:
   <<: *default
-  database: sahc_monitoring_reports_production
-  username: sahc_monitoring_reports
-  password: <%= ENV['SAHC-MONITORING-REPORTS_DATABASE_PASSWORD'] %>
+  url: <%= ENV["DATABASE_URL"] %>
