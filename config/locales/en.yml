@@ -37,3 +37,12 @@ en:
     formats:
       long: "%m/%d/%Y %I:%M %p"
       long_tz: "%m/%d/%Y %I:%M %p (%Z)"
+  activerecord:
+    attributes:
+      report:
+        type: Report Type
+        property_name: Property Name
+        monitoring_year: Year of Monitoring
+        photographer_name: Photographer Name
+        photo_starting_num: Initial Photo Number
+        extra_signatures: Additional Signatures to Require

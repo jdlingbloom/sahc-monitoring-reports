@@ -240,8 +240,11 @@ abbr[title=required] {
     height: 100px;
     padding-top: 50px;
   }
+}
 
-  p:last-child {
+.alert {
+  p:last-child,
+  ul:last-child {
     margin-bottom: 0px;
   }
 }

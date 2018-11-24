@@ -2,7 +2,7 @@
 
 <% @report.set_default_empty_extra_signatures! %>
 <%= simple_form_for(@report, :wrapper => :horizontal_form, :wrapper_mappings => { :radio_buttons => :horizontal_collection }, :html => { :class => "report-form" }) do |f| %>
-  <%= render("/form_errors", :record => @report) %>
+  <%= render "layouts/error_notification", :f => f %>
 
   <p><abbr title="required">*</abbr> Required field</p>
 
