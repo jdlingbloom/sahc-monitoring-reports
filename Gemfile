@@ -49,7 +49,7 @@ gem "activerecord-userstamp", "~> 3.0.5", :git => "https://github.com/lowjoel/ac
 gem "prawn", "~> 2.2.2"
 
 # Form layouts
-gem "simple_form", "~> 4.0.1"
+gem "simple_form", "~> 4.1.0"
 
 # Authentication
 gem "devise", "~> 4.5.0"
