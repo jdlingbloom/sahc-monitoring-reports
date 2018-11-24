@@ -3,11 +3,18 @@ FROM ruby:2.5.3-stretch
 # Determine Debian version
 RUN apt-get update && apt-get -y install lsb-release
 
-# Postgresql (9.6)
-RUN apt-get update && apt-get -y install postgresql-client && pg_config --version | grep --fixed-strings "PostgreSQL 9.6"
-
 # For editing encrypted secrets
 RUN apt-get update && apt-get -y install nano vim
+
+# Postgresql (10.0)
+RUN set -x && \
+  DISTRO="$(lsb_release -s -c)" && \
+  curl -sS https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add - && \
+  echo "deb http://apt.postgresql.org/pub/repos/apt/ ${DISTRO}-pgdg main 10" > /etc/apt/sources.list.d/pgdg.list && \
+  apt-get update && \
+  apt-get -y install postgresql-client-10 && \
+  pg_config --version && \
+  psql --version | grep --fixed-strings "(PostgreSQL) 10."
 
 # NodeJS and Yarn
 RUN set -x && \
