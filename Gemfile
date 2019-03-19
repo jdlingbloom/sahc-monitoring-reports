@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "2.5.4"
+ruby "2.5.5"
 
 gem "rails", "~> 5.2.1"
 
@@ -52,7 +52,7 @@ gem "prawn", "~> 2.2.2"
 gem "simple_form", "~> 4.1.0"
 
 # Authentication
-gem "devise", "~> 4.5.0"
+gem "devise", "~> 4.6.1"
 gem "omniauth", "~> 1.8.1"
 gem "omniauth-google-oauth2", "~> 0.5.3"
 
