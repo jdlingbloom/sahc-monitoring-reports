@@ -110,7 +110,7 @@ class Photo < ApplicationRecord
   def caption_cleaned
     # Some data read in seems to contain non breaking spaces, which interferes
     # with line wrapping in the PDFs. Replace these with normal spaces.
-    self.caption.gsub(/\u00a0/, " ").strip
+    self.caption.to_s.gsub(/\u00a0/, " ").strip
   end
 
   private

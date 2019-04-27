@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-ruby "2.5.5"
+ruby "2.6.3"
 
 gem "rails", "~> 5.2.1"
 
@@ -14,13 +14,13 @@ gem "puma", "~> 3.12.0"
 gem "pg", "~> 1.1.3"
 
 # Transpile app-like JavaScript. Read more: https://github.com/rails/webpacker
-gem "webpacker"
+gem "webpacker", "~> 4.0"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem "bootsnap", ">= 1.1.0", require: false
 
 # Error logging
-gem "rollbar", "~> 2.18.0"
+gem "rollbar", "~> 2.19.3"
 
 # EXIF extraction from JPEGs
 gem "exifr", "~> 1.3.5"
@@ -32,7 +32,7 @@ gem "rubyzip", "~> 1.2.0", :require => "zip"
 gem "htmlentities", "~> 4.3.4"
 
 # File Uploads
-gem "carrierwave", "~> 1.2.3"
+gem "carrierwave", "~> 1.3.1"
 gem "carrierwave-postgresql-table", "~> 1.1.0"
 gem "mini_magick", "~> 4.9.2"
 
@@ -53,15 +53,15 @@ gem "simple_form", "~> 4.1.0"
 
 # Authentication
 gem "devise", "~> 4.6.1"
-gem "omniauth", "~> 1.8.1"
-gem "omniauth-google-oauth2", "~> 0.5.3"
+gem "omniauth", "~> 1.9.0"
+gem "omniauth-google-oauth2", "~> 0.6.1"
 
 # Breadcrumbs
 gem "gretel", "~> 3.0.9"
 
 # Background jobs
 gem "delayed_job_active_record", "~> 4.1.1"
-gem "daemons", "~> 1.2.4"
+gem "daemons", "~> 1.3.1"
 
 # Prevent long-running requests.
 gem "rack-timeout", "~> 0.5.1", :require => "rack/timeout/base"

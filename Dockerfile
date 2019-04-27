@@ -1,4 +1,4 @@
-FROM ruby:2.5.5-stretch
+FROM ruby:2.6.3-stretch
 
 # Determine Debian version
 RUN apt-get update && apt-get -y install lsb-release
