@@ -19,8 +19,6 @@
 #
 
 class Report < ApplicationRecord
-  stampable
-
   TYPES = {
     "monitoring" => "Monitoring Report",
     "baseline" => "Baseline Report",

@@ -47,8 +47,6 @@ class Photo < ApplicationRecord
   COMPASS_HEADING_BUFFER = COMPASS_HEADING_SIZE / 2.0
   COMPASS_HEADING_NORTH_START = 360.0 - COMPASS_HEADING_BUFFER
 
-  stampable
-
   # Associations
   belongs_to :report, :inverse_of => :photos, :touch => true
 

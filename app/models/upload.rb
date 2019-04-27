@@ -21,8 +21,6 @@ require "rexml/document"
 #
 
 class Upload < ApplicationRecord
-  stampable
-
   # File attachments
   mount_uploader :file, UploadFileUploader
 

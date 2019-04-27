@@ -30,6 +30,7 @@
 class User < ApplicationRecord
   acts_as_paranoid
   model_stamper
+  stampable(:optional => true)
 
   devise :omniauthable, :trackable
 
