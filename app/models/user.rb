@@ -45,7 +45,7 @@ class User < ApplicationRecord
       info = auth.info
       email = info["email"]
       email_domain = email.split("@").last
-      if(email_domain == "appalachian.org" || Rails.application.credentials.fetch(:allowed_accounts).include?(email))
+      if((ENV["ALLOWED_EMAIL_DOMAIN"].present? && email_domain == ENV["ALLOWED_EMAIL_DOMAIN"]) || (ENV["ALLOWED_EMAIL_ADDRESSES"].present? && ENV["ALLOWED_EMAIL_ADDRESSES"].split(",").map { |e| e.strip.presence }.compact.include?(email)))
         user = User.create!({
           :provider => auth.provider,
           :uid => auth.uid,

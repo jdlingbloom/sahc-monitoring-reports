@@ -74,6 +74,9 @@ group :development, :test do
   #
   # Use master for Ruby 2.4 deprecation warning fixes.
   gem "annotate", "~> 2.7.4"
+
+  # Development configuration
+  gem "dotenv-rails", "~> 2.7.2"
 end
 
 group :development do
