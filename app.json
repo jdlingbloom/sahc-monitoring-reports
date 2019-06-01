@@ -1,0 +1,41 @@
+{
+  "name": "Monitoring Reports",
+  "description": "A web application for organizing land conservation monitoring photos and reports.",
+  "keywords": [],
+  "addons": [
+    "heroku-postgresql:hobby-dev",
+    "scheduler:standard",
+    "papertrail:choklad"
+  ],
+  "env": {
+    "ORGANIZATION_NAME": {
+      "description": "Your organization's name. This will show up in a few different places throughout the application."
+    },
+    "TIME_ZONE": {
+      "description": "The time zone you want dates and times to show up in. Choose from 'Eastern Time (US & Canada)', 'Central Time (US & Canada)', 'Mountain Time (US & Canada)', or 'Pacific Time (US & Canada)'.",
+      "value": "Eastern Time (US & Canada)"
+    },
+    "GOOGLE_CLIENT_ID": {
+      "description": "Google Client ID for configuring Google Sign-In."
+    },
+    "GOOGLE_CLIENT_SECRET": {
+      "description": "Google Client secret for configuring Google Sign-In."
+    },
+    "ROLLBAR_ACCESS_TOKEN": {
+      "description": "Optional. Only necessary if using Rollbar service for tracking application errors.",
+      "required": false
+    },
+    "SECRET_KEY_BASE": {
+      "description": "A value will automatically be generated for you and does not need to be adjusted.",
+      "generator": "secret"
+    },
+    "LANG": {
+      "description": "The default value is suitable if English is your primary language.",
+      "value": "en_US.UTF-8"
+    },
+    "RAILS_MAX_THREADS": {
+      "description": "The default value is suitable for the free Heroku database.",
+      "value": "9"
+    }
+  }
+}
