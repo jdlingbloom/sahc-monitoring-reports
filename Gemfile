@@ -20,7 +20,7 @@ gem "webpacker", "~> 4.0"
 gem "bootsnap", ">= 1.1.0", require: false
 
 # Error logging
-gem "rollbar", "~> 2.19.3"
+gem "rollbar", "~> 2.20.1"
 
 # EXIF extraction from JPEGs
 gem "exifr", "~> 1.3.5"
@@ -55,6 +55,9 @@ gem "simple_form", "~> 4.1.0"
 gem "devise", "~> 4.6.1"
 gem "omniauth", "~> 1.9.0"
 gem "omniauth-google-oauth2", "~> 0.6.1"
+
+# Fix for CVE-2015-9284: https://github.com/omniauth/omniauth/pull/809
+gem "omniauth-rails_csrf_protection", "~> 0.1.0"
 
 # Breadcrumbs
 gem "gretel", "~> 3.0.9"

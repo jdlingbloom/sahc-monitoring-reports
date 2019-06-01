@@ -39,13 +39,12 @@ class User < ApplicationRecord
   validates :uid, :presence => true
 
   def self.from_omniauth(auth)
-    user = User.find_by(:provider => auth.provider, :uid => auth.uid)
-
-    if(!user)
-      info = auth.info
-      email = info["email"]
-      email_domain = email.split("@").last
-      if((ENV["ALLOWED_EMAIL_DOMAIN"].present? && email_domain == ENV["ALLOWED_EMAIL_DOMAIN"]) || (ENV["ALLOWED_EMAIL_ADDRESSES"].present? && ENV["ALLOWED_EMAIL_ADDRESSES"].split(",").map { |e| e.strip.presence }.compact.include?(email)))
+    info = auth.info
+    email = info["email"]
+    email_domain = email.split("@").last
+    if((ENV["ALLOWED_EMAIL_DOMAIN"].present? && email_domain == ENV["ALLOWED_EMAIL_DOMAIN"]) || (ENV["ALLOWED_EMAIL_ADDRESSES"].present? && ENV["ALLOWED_EMAIL_ADDRESSES"].split(",").map { |e| e.strip.presence }.compact.include?(email)))
+      user = User.find_by(:provider => auth.provider, :uid => auth.uid)
+      if(!user)
         user = User.create!({
           :provider => auth.provider,
           :uid => auth.uid,
