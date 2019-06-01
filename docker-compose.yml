@@ -19,6 +19,10 @@ services:
       DB_NAME: sahc_development
     volumes:
       - .:/app
+      # Don't mount tmp directory to fix bootsnap issues between the 2
+      # different web and delayed_job containers:
+      # https://github.com/Shopify/bootsnap/issues/177#issuecomment-491711481
+      - /app/tmp
       - bundle_cache:/usr/local/bundle
       - rails_tmp_cache:/usr/local/rails_tmp_cache
       - yarn_cache:/usr/local/node_modules
@@ -38,6 +42,7 @@ services:
       DB_NAME: sahc_development
     volumes:
       - .:/app
+      - /app/tmp
       - bundle_cache:/usr/local/bundle
       - rails_tmp_cache:/usr/local/rails_tmp_cache
       - yarn_cache:/usr/local/node_modules
