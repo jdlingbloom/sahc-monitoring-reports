@@ -138,7 +138,7 @@ class Report < ApplicationRecord
             pdf.stroke_horizontal_rule
             pdf.move_down signature_margin
             pdf.text "Signature of photographer", :single_line => true, :overflow => :shrink_to_fit
-            pdf.text "#{self.photographer_name}, SAHC", :single_line => true, :overflow => :shrink_to_fit
+            pdf.text "#{self.photographer_name}, #{ENV.fetch("ORGANIZATION_NAME")}", :single_line => true, :overflow => :shrink_to_fit
           end
 
           pdf.grid([0, 4], [0, 5]).bounding_box do

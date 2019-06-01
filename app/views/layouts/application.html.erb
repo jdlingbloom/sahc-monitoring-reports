@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>SAHC Monitoring Reports</title>
+  <title><%= ENV.fetch("ORGANIZATION_NAME") %> Monitoring Reports</title>
   <%= csrf_meta_tags %>
   <%= csp_meta_tag %>
   <%= stylesheet_pack_tag "stylesheets", :media => "all" %>
