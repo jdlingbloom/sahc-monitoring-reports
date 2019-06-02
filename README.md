@@ -54,7 +54,9 @@ If you'd like to run your own version of this application, you can do so for fre
     1. Click the "Open App" button in the top-right corner. You should end up at https://[YOUR-APP-NAME-HERE].herokuapp.com with a login page. However, before logging in, you'll need complete some additional configuration with Google:
 1. Finalize the Google Sign-In configuration.
     1. Navigate back to the Credentials section of the [Google API Console](https://console.developers.google.com/apis/credentials).
-    1. Under "OAuth 2.0 client IDs" click on the credentials you previously created.
-    1. Under the "Authorized redirect URIs" enter: `https://[YOUR-APP-NAME-HERE].herokuapp.com/users/auth/google_oauth2/callback` (substituting `[YOUR-APP-NAME-HERE]` with whatever Heroku name you ended up using).
-    1. Press "Save."
-1. Navigate back to https://[YOUR-APP-NAME-HERE].herokuapp.com. You should now be able to login with any allowed Google Accounts and start using the tool. 🚀
+    1. Switch to the "OAuth consent screen" tab. Under "Authorized domains" enter `[YOUR-APP-NAME-HERE].herokuapp.com` (substituting `[YOUR-APP-NAME-HERE]` with whatever Heroku name you used). Press "Save".
+    1. Back on the "Credentials" tab, under "OAuth 2.0 client IDs" click on the credentials you previously created.
+    1. Under the "Authorized redirect URIs" enter: `https://[YOUR-APP-NAME-HERE].herokuapp.com/users/auth/google_oauth2/callback` (substituting `[YOUR-APP-NAME-HERE]` with whatever Heroku name you used). Press "Save".
+1. Go to https://[YOUR-APP-NAME-HERE].herokuapp.com. You should now be able to login with any Google Accounts you configured to allow and start using the tool. 🚀
+
+If you need to make adjustments after the application has been deployed to any of the settings you initially filled out in Heroku, you can change those settings by logging into [Heroku dashboard](https://dashboard.heroku.com/), navigating to the app, going to the "Settings" tab, and then clicking "Reveal Config Vars" to edit specific variables.
