@@ -126,7 +126,7 @@ class Report < ApplicationRecord
       pdf.line_width = 0.5
 
       photo_index = 0
-      self.photos.in_groups_of(6, false).each_with_index do |page_photos, page_index|
+      self.photos.in_groups_of(4, false).each_with_index do |page_photos, page_index|
         pdf.start_new_page if(page_index > 0)
 
         pdf.bounding_box([0, pdf.bounds.height], :width => pdf.bounds.width, :height => header_height) do
@@ -135,17 +135,17 @@ class Report < ApplicationRecord
 
           pdf.grid([0, 0], [0, 3]).bounding_box do
             pdf.move_down header_signature_height
-            pdf.stroke_horizontal_rule
+            #pdf.stroke_horizontal_rule
             pdf.move_down signature_margin
-            pdf.text "Signature of photographer", :single_line => true, :overflow => :shrink_to_fit
+            #pdf.text "Signature of photographer", :single_line => true, :overflow => :shrink_to_fit
             pdf.text "#{self.photographer_name}, #{ENV.fetch("ORGANIZATION_NAME")}", :single_line => true, :overflow => :shrink_to_fit
           end
 
           pdf.grid([0, 4], [0, 5]).bounding_box do
             pdf.move_down header_signature_height
-            pdf.stroke_horizontal_rule
+            #pdf.stroke_horizontal_rule
             pdf.move_down signature_margin
-            pdf.text "Date"
+            #pdf.text "Date"
           end
 
           pdf.grid([0, 6], [0, 11]).bounding_box do
@@ -165,7 +165,7 @@ class Report < ApplicationRecord
         pdf.bounding_box([0, pdf.bounds.height - header_height], :width => pdf.bounds.width, :height => pdf.bounds.height - (header_height + footer_height)) do
           pdf.font_size 10
 
-          cols = 3
+          cols = 2
           pdf.define_grid(:columns => cols, :rows => 2, :gutter => 10)
           page_photos.each_with_index do |photo, index|
             row = (index / cols.to_f).floor
@@ -179,12 +179,12 @@ class Report < ApplicationRecord
               pdf.fill
               pdf.move_down 1
               pdf.font("Helvetica") do
-                pdf.text "#{I18n.localize(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded} Alt=#{photo.altitude_feet}ft MSL WGS-84", :color => "ffffff", :size => 5, :align => :center
+                pdf.text "#{I18n.localize(photo.taken_at, :format => :long_tz) if(photo.taken_at)} Lat=#{photo.latitude_rounded} Lon=#{photo.longitude_rounded}, :color => "ffffff", :size => 5, :align => :center
               end
               pdf.move_down 3
-              pdf.text_box "Photo #{self.photo_starting_num + photo_index}: #{photo.caption_cleaned}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
+              pdf.text_box "{photo.caption_cleaned}", :at => [0, pdf.cursor], :width => pdf.bounds.width, :overflow => :shrink_to_fit
             end
-
+  #{#{ Photo #{self.photo_starting_num + photo_index}:  }}Alt=#{photo.altitude_feet}ft MSL WGS-84"
             photo_index += 1
           end
         end
@@ -229,10 +229,10 @@ class Report < ApplicationRecord
             pdf.text "<b>#{self.property_name.upcase}</b> PROPERTY #{self.monitoring_year} #{self.type.upcase} PHOTOS", :align => :center, :inline_format => true, :single_line => true, :overflow => :shrink_to_fit
           end
 
-          pdf.grid([last_row, 11], [last_row, 11]).bounding_box do
-            pdf.move_down property_name_padding
-            pdf.text "#{i + 1} of #{pdf.page_count}", :align => :right
-          end
+          #pdf.grid([last_row, 11], [last_row, 11]).bounding_box do
+            #pdf.move_down property_name_padding
+            #pdf.text "#{i + 1} of #{pdf.page_count}", :align => :right
+          #end
         end
       end
     end
